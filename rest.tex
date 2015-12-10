@@ -1,1 +1,46 @@
 \chapter{REST Service}
+
+\section{Survey}
+
+\subsection{Wie ist der Rest Standard definiert und welchem Komitee unterliegt er?}
+
+Rest ist kein Standard!
+
+
+\subsection{Welche Standards verwendet Rest?}
+
+Eigentlich alle, die ins Konzept passen.
+http, URl, XML, JSON, …
+Was ist Rest genau?
+Representational state transfer
+
+Versetzt den Client immer in einen neuen Status
+Es ist ein Design Pattern & ein architektureller Stil
+Welche 4 grundlegenden Weboperationen liegen dem im Rest zugrunde?
+GET PUT POST DELETE
+-	Create = POST / PUT
+-	Read = GET
+-	Update = PUT / POST
+-	Delete = DELETE
+
+Welche http Operationen sind idempotent und welche nicht?
+Idempotente = mehrere calls = dasselbe resultat
+= GET – HEAD 
+!= PUT POST DELETE
+
+Ausnahme: Besucherzähler
+Die BookID von Alice in Wunderland ist 15608. Die URL ist: http://www.kaufen.ch/books/getBooks?id=15608 . Wie könnte die URL REST konform aussehen?
+http://www.kaufen.ch/books/15608
+http://www.kaufen.ch/books/Alice_in_Wunderland
+Wieso war Fielding so darauf bedacht, alle Ressourcen im Web mit in sein Design einzubeziehen?
+Schaue nie in den Payload – Keine Komponente im Web darf den URI verändern, sondern schaut eben in den Header.
+Sonst gibt es wieder mehrere Standards – man soll via Link direkt auf andere Ressourcen zugreifen können.
+Was muss in einem REST konformen Design in der Antwort enthalten sein?
+Min. eine URL, die zum nächsten Status führt.
+Die Strukturierung der Daten / Verweise auf mehr Informationen / Ein Header
+
+Beschreiben Sie genau den Aufbau vom Rest Design Pattern.
+Aktivität = Ressource
+Jede URL = 1 Ressource
+Simple Operationen auf diese Ressourcen
+

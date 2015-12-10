@@ -4,19 +4,78 @@
 \section{Survey}
 
 \subsection{Wie nennt man das Interface das die Gegenstelle zum API bildet und die eine problemlose Kommunikation mit dem Java API ermöglichen soll?}
+SPI - Service Provider Interface
 
-\subsection{Was ist LDAP?}
+Das was sie erwenden müssten, wenn sie einen Service schreiben möchtne, nicht wenn sie ihn benutzen möchten, dann benutzen sie das API, aber wenn sie den Servie schreiben möchten, dann brauchen sie das SPI. Ein LDAP Server bietet ein SPI an, genauso wie ein API.
+
+\subsection{Was ist LDAP? - MEP}
+Lightweight Directory Access Protocol
+Es ist ein Zugriffsprotokoll \& ein Directory Standard, da könnte man sagen, ja es ist mehr wie nur ein Protokoll. Es beinhaltet 4 Modelle, wie würden Sie bei einem LDAP Daten austauschen? Dann haben Sie die Antwort 
+
+LDIF Protokoll
+Data Interchange Format
+
 
 \subsection{Welche 2 Services stellt das JNDI zur Verfügung?}
+Naming / Directory
+
+Bildet Namen auf Objekte ab - Namensdienst
+
+Verzeichnisdienst - Bildet zusätzlich noch Attribute zum Objekt ab
+
 
 \subsection{Was muss als allererstes erzeugt werden bei einer möglichen Verwendung eines Naming Services um ein Java Objekt zu registrieren?}
+Container?
+
+Durch diese Annotationen müssen sie natürlich nicht mehr den Aufwand betreiben, so wie das hier gefragt wird, zum Beispiel einen initialen Cintext u erzeugen, und nachher stelllen sie die Verbnindung her zu mVerzeichnisdienst und fragen die erbndung zum Objekt ab. CDI nummt dies Arbeit ab, aber es gibt immer noch Fö
+
+Diese Anfrage beinhaltet:
+Verwendetere JDNI Name 
+
+Servername\& Port
 
 \subsection{Nennen Sie einige der Basismethoden mit denen Sie auf den Namensdienst zugreifen resp. navigieren?}
 
+Bind, Attribute Change, Search.
+
+Lookup, List, Bind - hört er gerne, ist LDAP spezifisch, man bindet sich an ein Sevrer (Zusatzfrage: Wie wird denn im Gegensatz zu einer Datenbank eine LDAP Anfrage gemacht? - Eine Datenbank Anfrage macht man zuerst ein Open (wäre ien Bind), dann lassen sie diese offen (typischerweise im Applikationscontainer welche ein Pool von solchen Connections hat, weil diese teuer zu initialisieren sind, ganz im Gegensatz zum LDAP, der macht ein Bind und wenn er seine Antwort gekriegthat, gibt es ein unbind. Und dann wieder ein bind. Für jede Anfrage. Es wurde ja Entworfen für Telefonverzeichnisse, da wird sehr viel gelesen und nicht sehr viel geschrieben . ist leseoptimiert. Kann man nachlesen, wie viel mal schneller ein LDAP ist beim lesen als eine Datenbank , dafür beim Schreiben naütrlich langsam.
+
 \subsection{Was ist ein distinguished Name (dn) und wie setzt er sich zusammen?}
+Sequenz von mehreren RDN (Relative Distinguished Name)
+
+RDN = attribute:value
+
+
+____
+
+
+
+Wenn sie ein Distinguished Ingenieur sind - distinguished = ausgewählt - schenkt Joho einen Blumenstrauss. 
+
+ähnlich litle endian - wie mail
+
+big endian - wie ein file system
+
+dn führt direkt zum objekt - nicht erst verbindung öffnen usw. - und dann entweder weitersuchen vom objekt oder fertig. man kann eben so die suche sehr gut einschränken.
 
 \subsection{Welche 4 Modelle implementiert das LDAP Protokoll?}
+Informationsmodlel
+Namensmodel
+Sicherheitsmodell
+XYZ Modell
+SSO, X.500?
 
 \subsection{Welche Operation nennt man Interrogation Operations (Abfrage) und welches Äquivalent hat sie in der Welt der Datenbanken?}
 
+LDAP macht Search mit bis zu 8 Parameter, z.B. das Basisobjekt, der Search Scope (Einschränkung der Suche, hat seine Geschichte im Telefonbuch), Size Limit, Time Limit, Attribute-only Parameter, Filter, List Attribute von den Returnwerte - man kann direkt beim Search angeben, ich will nur 100 Einträge.
+
+
+Search, Compare
+
+
+
 \subsection{Was ist besonders an einer LDAP Anfrage, ganz im Gegensatz zu einer DB Anfrage?}
+
+Bind - bind Success. Die Verbindung wird nur für 1 Anfrage aufrecht erhalten, dann wird eine neue Verbindung gemacht.
+
+Man kann bestimmen wo im Verzeichnis die Suche beginnen soll, da es baumartig aufgebaut ist.
