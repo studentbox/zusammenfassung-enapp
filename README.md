@@ -11,7 +11,7 @@ Leider passt die Planung und die gebrachten Themen überhaupt nicht zusammen. Wa
 - Security (ok, Gastvortrag)
 - Queuing / JMS (ok, aber als Messaging) 
 - ReST Services (ok)
-- High Availability / JGroups / InfiniSpan (ok,Gastvortrag)
+- High Availability / JGroups / InfiniSpan (ok, Gastvortrag)
 - Architectur al review (ok, Gastvortrag, keine Theorie)
 - JNDI / LDAP (ok)
 
@@ -20,7 +20,7 @@ Leider passt die Planung und die gebrachten Themen überhaupt nicht zusammen. Wa
 - Introduction JEE (nok - war wohl EJB Tier)
 - Web Services (nok - keine Theorie, nur im Tooling)
 - Applying JEE Patterns (nok - im Web Tier hat es JEE Patterns)
-- Business Tier (nok)
+- Business Tier (nok - ist das im EJB?)
 - Portal / Portlets (nok)
 
 ## Fragenkataloge
