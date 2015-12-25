@@ -14,11 +14,11 @@ Leider passt die Planung und die gebrachten Themen überhaupt nicht zusammen. Wa
 - High Availability / JGroups / InfiniSpan (ok, Gastvortrag)
 - Architectur al review (ok, Gastvortrag, keine Theorie)
 - JNDI / LDAP (ok)
+- Web Services (ok, aber als Messaging)
 
 ### NOK - Gilt es zu klären
 - View (nok - im Web Tier hat es Themen drin, die die View adressieren)
 - Introduction JEE (nok - war wohl EJB Tier)
-- Web Services (nok - keine Theorie, nur im Tooling)
 - Applying JEE Patterns (nok - im Web Tier hat es JEE Patterns)
 - Business Tier (nok - ist das im EJB?)
 - Portal / Portlets (nok)
