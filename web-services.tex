@@ -1,1 +1,39 @@
 \chapter{Web Services}
+
+Die Java EE Web Services (JAX-WS) nutzen das SOAP-Protokoll um mit entfernten Diensten zu kommunizieren. Allerdings ist ein SOAP-Webservice oft ein Overkill und eine einfache RMI- oder REST-Schnittstelle tut es auch. Eine SOAP-Architektur besteht aus einem Client, einem Server und einem UDDI (Universal Description, Discovery and Integration). Der Server definiert seine Services mit der WSDL-Sprache (Web Service Description Language) und teilt diese Information dem UDDI mit. Ein Client findet seine Services über den UDDI und fragt dann den Server direkt an. Der UDDI hat sich nicht wie erwünscht durchgesetzt. Listing \ref{lst:soap-struktur} zeigt einen die Struktur einer SOAP-Nachricht (Envelope, Header, Body).
+
+\begin{lstlisting}[language=XML, caption=SOAP Struktur, label=lst:soap-struktur]
+<soap-env:Envelope xmlns:soap-env="http://schemas/xmlsoap.org/soap/envelope/">
+	<soap-env:Header>
+		<!-- Header Information -->
+	</soap-env:Header>
+	<soap-env:Body>
+		<!-- Body Information -->
+	</soap-env:Body>
+</soap-env:Envelope>
+\end{lstlisting}
+
+Listing \ref{lst:soap-anfrage-antwort} schickt eine Anfrage (HTTP POST) für eine Liste von Teilen an die URL \verb|http://www.parts-depot.com/soap| und erhält eine entsprechende Antwort. Der Inhalt des Body ist nicht vom SOAP Standard festgelegt und kann vom Entwickler frei bestimmt werden. In der Antwort werden absichtlich keine Links verwendet (wie in REST) weil alle SOAP-Anfragen an die gleiche URL gehen.
+
+\begin{lstlisting}[language=XML, caption=SOAP Anfrage/Antwort, label=lst:soap-anfrage-antwort]
+<!-- Anfrage -->
+<?xml version="1.0"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<p:getPartsList xmlns:p="http://www.parts-depot.com"/>
+	</soap:Body>
+</soap:Envelope>
+
+<!-- Antwort -->
+<?xml version="1.0"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<p:getPartsListResponse xmlns:p="http://www.parts-depot.com">
+			<Parts>
+				<Part-ID>00345<Part-ID>
+				<Part-ID>00346<Part-ID>
+			</Parts>
+		<p:getPartsListResponse>
+	</soap:Body>
+</soap:Envelope>
+\end{lstlisting}
