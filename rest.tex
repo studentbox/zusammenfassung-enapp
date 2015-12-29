@@ -1,46 +1,67 @@
 \chapter{REST Service}
 
-\section{Survey}
+\section{HTTP Protokoll}
 
-\subsection{Wie ist der Rest Standard definiert und welchem Komitee unterliegt er?}
+Eine HTTP-Anfrage besteht aus einem Header und einem Payload. Listing \ref{lst:http-anfrage} zeigt eine POST-Anfrage an den Host http://www.amazon.com. 
 
-Rest ist kein Standard!
+\begin{lstlisting}[caption=HTTP-Anfrage, label=lst:http-anfrage]
+POST / HTTP/1.1
+Host: http://www.amazon.com
 
+Book: Da Vince Code
+Credit Card: Visa
+Number: 123-45-6789
+Expiry: 12-04-06
+\end{lstlisting}
 
-\subsection{Welche Standards verwendet Rest?}
+Das HTTP-Protokoll stellt folgendes Set an einfachen Operationen bereit:
 
-Eigentlich alle, die ins Konzept passen.
-http, URl, XML, JSON, …
-Was ist Rest genau?
-Representational state transfer
+\begin{description}
+	\item[GET] Informationen abfragen (Read)
+	\item[POST] Informationen erstellen (Create)
+	\item[PUT] Informationen aktualisieren (Update)
+	\item[DELETE] Informationen löschen (Delete) 
+\end{description}
 
-Versetzt den Client immer in einen neuen Status
-Es ist ein Design Pattern \& ein architektureller Stil
-Welche 4 grundlegenden Weboperationen liegen dem im Rest zugrunde?
-GET PUT POST DELETE
--	Create = POST / PUT
--	Read = GET
--	Update = PUT / POST
--	Delete = DELETE
+Die obere Auflistung zeigt dass die HTTP API das CRUD-Paradigma erfüllt. Um eine Ressource zu identifizieren kann eines der folgenden Konzepte gewählt werden:
 
-Welche http Operationen sind idempotent und welche nicht?
-Idempotente = mehrere calls = dasselbe resultat
-= GET – HEAD 
-!= PUT POST DELETE
+\begin{description}
+	\item[Uniform Resource Locator (URL)] ist vom Typ URI und ist eine Referenz auf eine Web Ressource. Um ein Buch zu finden braucht man eine Lokation z.B. file:///home/username/books
+	\item[Uniform Resource Name (URN)] sagt nichts aus über die Verfügbarkeit einer Ressource. z.B. eine ISBN Nummer ist eine URN.
+	\item[Uniform Resource Identifier (URI)] folgt einem URI Schema (RFC 396) - können klassifiziert werden als Namen, Lokator oder beides.
+\end{description}
 
+\section{Architektur}
 
-%Ausnahme: Besucherzähler Die BookID von Alice in Wunderland ist 15608. Die URL ist: http://www.kaufen.ch/books/getBooks?id=15608 . Wie könnte die URL REST konform aussehen?
-%http://www.kaufen.ch/books/15608
-%http://www.kaufen.ch/books/Alice\_in\_Wunderland
-%Wieso war Fielding so darauf bedacht, alle Ressourcen im Web mit in sein Design einzubeziehen?
-%Schaue nie in den Payload – Keine Komponente im Web darf den URI verändern, sondern schaut eben in den Header.
-%Sonst gibt es wieder mehrere Standards – man soll via Link direkt auf andere Ressourcen zugreifen können.
-%Was muss in einem REST konformen Design in der Antwort enthalten sein?
-%Min. eine URL, die zum nächsten Status führt.
-%Die Strukturierung der Daten / Verweise auf mehr Informationen / Ein Header
+Beim REST-Architekturstil (Representational State Transfer) referenziert ein Client über eine URL eine Ressource. Eine \textit{Repräsentation} dieser Ressource wird zurückgegeben. Dadurch wird der Client in einen neuen \textit{Status} versetzt. Wenn der Client einem Hyperlink in der Repräsentation folgt, greift er auf eine andere Ressource zu. Diese neue Repräsentation \textit{transferiert} den Client in einen neuen Status. Der Client wechselt also seinen Status mit jeder Ressourcen Repräsentation.
 
-%Beschreiben Sie genau den Aufbau vom Rest Design Pattern.
-%Aktivität = Ressource
-%Jede URL = 1 Ressource
-%Simple Operationen auf diese Ressourcen
+REST ist kein kein Standard aber es gibt REST-Frameworks, welche einem die Entwicklung erleichtern. Folgende REST-Paradigmen sollen helfen einen korrekten REST-Service zu entwerfen:
+\begin{itemize}
+	\item Für jeden Service wird eine Ressource erzeugt
+	\item Identifiziere jede Ressource unter Verwendung einer URL.
+	\item Die Daten, die von einem Web Service retourniert werden, sollten Links zu anderen Daten enthalten.
+\end{itemize}
+Daraus kann man schliessen dass man seine Daten als ein Netzwerk von Informationen planen sollte (Im Gegensatz zum OOP wo die Kapslung empfohlen wird).
 
+Eine REST-Architektur besteht aus folgenden Elementen:
+\begin{description}
+	\item[Ressource] besteht aus Daten und Beziehungen zu anderen Ressourcen
+	\item[Ressource Identifikation] identifiziert die Ressource eindeutig (URL, URN)
+	\item[Representation] stellt die Ressource unterschiedlich dar (z.B. JSON, XML oder HTML)
+	\item[Representation Metadata] beschreibt die Representation (z.B. Media-Type, Änderungsdatum)
+	\item[Ressource Metadaten] beschreibt die Ressource (z.B. Source Link, Alternative)
+	\item[Control Data] steuert vor allem den Cache
+\end{description}
+Eine Ressource kann von unterschiedlichen URLs angesprochen werden. So könnte z.B. das aktuellste Java SDK (Ressource) von der URL \verb|http:\\oracle.com/java/current| heruntergeladen werden. Gleichzeitig ist das SDK auch unter der URL \verb|http:\\oracle.com/java/8| verfügbar. Wenn jetzt das SDK der Version 9 verfügbar ist zeigt \verb|current| auf die Version 9 und die URL der Version 8 immer noch auf die Version 8.
+
+\section{Komponenten}
+
+Das Web ist aus folgenden Komponenten zusammengesetzt:
+\begin{description}
+	\item[Firewalls] entscheiden ob eine HTTP-Nachricht passieren darf. Tragen zu mehr Sicherheit im Web bei.
+	\item[Routers] entscheiden wohin mit dem HTTP-Nachrichten. Ermöglichen eine Skalierung des Webs.
+	\item[Caches] entscheiden ob eine gespeicherte Kopie verwendet werden darf. Erhöht die Geschwindigkeit im Web.
+\end{description}
+All diese Komponenten treffen Entscheidungen aufgrund vom HTTP Header. REST macht sich diese HTTP Header zu nutze um diese Komponenten auf einfache Weise zu steuern. So kann z.B. ein Proxy Server anhand der URL und der HTTP Methode herausfinden ob ein Zugriff erlaubt ist. In SOAP gehen alle Anfragen an die gleiche URL und der Methodennamen ist im Payload verborgen. Der Proxy müsste also in den Payload schauen (ist nicht immer möglich z.B. wenn verschlüsselt).
+Zudem lassen sich REST-Anfragen einfach cachen. Alle nötigen Informationen werden über die HTTP Header zur Verfügung gestellt. In SOAP ist ein Caching kaum möglich, weil jedes mal in den Envelope geschaut werden müsste, um die Methode herauszufinden. 
+REST Services halten sich an gewisse Standards (z.B. URL, HTTP-Methoden), dadurch können unabhängige Ressourcen untereinander besser kommunizieren. In SOAP kann jeder Entwickler seine Schnittstelle selbst definieren. Deshalb müssen Tools oft angepasst werden. 
