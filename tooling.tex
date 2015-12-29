@@ -49,9 +49,9 @@ Beispielsweise hat der Apache Tomcat  standardmässig JPA nicht dabei (muss selb
 
 
 \section{DB2}
-DB2 ist von IBM und im Unternehmensumfeld stark verbreitet. Auf einem Server können mehrere DB2 Instanzen betrieben werden. Jede Instanz kann mehrere Datenbanken haben. Nun folgen die Schemas und erst dann die Tabellen. Wir haben im ENAPP-Modul eine Instanz betrieben, welche die Datenbank ENAPP beinhaltet und haben dann Schemas wie SBBRSS, EATME oder eben WEBSHOP erzeugt. (\emph{“In MySQL, physically, a schema is synonymous with a database}).
+DB2 ist von IBM und im Unternehmensumfeld stark verbreitet. Auf einem Server können mehrere DB2 Instanzen betrieben werden. Jede Instanz kann mehrere Datenbanken haben. Nun folgen die Schemas und erst dann die Tabellen. Wir haben im ENAPP-Modul eine Instanz betrieben, welche die Datenbank ENAPP beinhaltet und haben dann Schemas wie SBBRSS, EATME oder eben WEBSHOP erzeugt. (\emph{In MySQL, physically, a schema is synonymous with a database}). Listing \ref{lst:db2-connection} zeigt wie eine Verbindung zur DB2 Datenbank aufgebaut werden kann.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption=Verbindung zu DB2 herstellen, label=lst:db2-connection]
 student@linux-wm6v:~> su - db2inst
 Password:
 
@@ -89,18 +89,19 @@ Wenn mit JPA auf ein Schema zugegriffen wird, reichen logischerweise die Standar
 \end{lstlisting}
 
 \section{Facetten}
-Damit bei einer Applikation nicht immer einfach alles mit deployt wird, können Erweiterungen über Facetten definiert werden. In einem Web Projekt, welche direkt über JPA auf die DB zugreift, kann die JPA Facette hinzugefügt werden. \emph{Facets define characteristics and requirements for Java EE projects and are used as part of the runtime configuration.}
 
+Damit bei einer Applikation nicht immer einfach alles mit deployt wird, können Erweiterungen über Facetten definiert werden. In einem Web Projekt, welche direkt über JPA auf die DB zugreift, kann die JPA Facette hinzugefügt werden.
 
-
+\begin{quote}
+\textit{Facets define characteristics and requirements for Java EE projects and are used as part of the runtime configuration.}
+\end{quote}
 
 \section{Projektstruktur von Java EE Projekte}
 
 \begin{description}
-	\item[EatMeMine:] Das ist das Projekt, in das die einzelnen Teilprojekte (EJB, Web, Client) später
-	zusammengepackt werden und als Ganzes auf den Server deployen wird.
+	\item[EatMeMine:] Das ist das Projekt, in das die einzelnen Teilprojekte (EJB, Web, Client) später zusammengepackt werden und als Ganzes auf den Server deployen wird.
 	
-	\item[EatMeMineEJB:] „EJB“ steht für Enterprise JavaBeans. Dieses Projekt beinhaltet den Teil der
+	\item[EatMeMineEJB:] \textit{EJB} steht für Enterprise JavaBeans. Dieses Projekt beinhaltet den Teil der
 	Applikation, der für die Geschäftslogik verantwortlich ist. Sie sind das Prunkstück von Java EE, da
 	sie Services wie Transaktionen, Security oder Job scheduling bieten.
 	
@@ -121,7 +122,7 @@ Der Unterschied zwischen einem (Tomcat-)Webprojekt und einer (WebSphere-)Enterpr
 	\item Ein EAR beinhaltet ein oder mehrere WAR- und EJB-Archive bzw. JAR-Archive.
 	\item Alle diese Archivarten sind technisch nichts anderes als ZIP-Archive, in die man dementsprechend mit jedem Unzipper reinschauen kann.
 \end{itemize}
-Nebst diesen Projekten legen wir noch ein common-Projekt mit Interfaces an.
+Nebst diesen Projekten wurde noch ein Common-Projekt mit Interfaces und DTOs angelegt.
 
 \section{Java EE-Architektur: MVC Model 2}
 
@@ -155,28 +156,28 @@ Nebst diesen Projekten legen wir noch ein common-Projekt mit Interfaces an.
 \label{fig:tooling-architektur-eatmemine}
 \end{figure}
 
-
 \section{EJB}
-EJBs sind container managed und werden immer über @Inject bzw. @Ejb injiziert. Also nie mit new-Erzeugen! Man sollte falls möglich @Inject verwenden. Der wesentliche Unterschied zwischen @Inject und @EJB ist, dass mit @Inject Instanzen vieler verschiedener Klassen-Typen (sogar POJOs) injiziert werden können, mit @EJB hingegen wirklich nur EJBs. Dass es sich bei einer Klasse um eine EJB handelt, erkennst du an der Annotation @Stateful oder @Stateless. Andererseits ist es manchmal notwendig, Attribute bei der Annotation anzugeben, was wiederum bei @Inject nicht möglich ist. An dieser Stelle wird dann nicht das echte EJB injiziert sondern ein Proxy, welche sich dann aufen Scope (SessionScope, RequestScope, ...) bezieht.
+
+EJBs sind container managed und werden immer über \verb|@Inject| bzw. \verb|@EJB| injiziert. Also nie mit new-Erzeugen! Man sollte falls möglich \verb|@Inject| verwenden. Der wesentliche Unterschied zwischen \verb|@Inject| und \verb|@EJB| ist, dass mit \verb|@Inject| Instanzen vieler verschiedener Klassen-Typen (sogar POJOs) injiziert werden können, mit \verb|@EJB| hingegen wirklich nur EJBs. Dass es sich bei einer Klasse um eine EJB handelt, erkennst du an der Annotation \verb|@Stateful| oder \verb|@Stateless|. Andererseits ist es manchmal notwendig, Attribute bei der Annotation anzugeben, was wiederum bei \verb|@Inject| nicht möglich ist. An dieser Stelle wird dann nicht das echte EJB injiziert sondern ein Proxy, welche sich dann aufen Scope (SessionScope, RequestScope, ...) bezieht.
 
 \subsection{EJB-Typen}
 
 \begin{description}
-	\item[@Local] Die EJB, die ein solches Interface implementiert, kann von allen Modulen (z.B. einem WAR) innerhalb derselben JVM verwendet werden. „Innerhalb derselben JVM“ bedeutet also beispielsweise	von allen Anwendungen innerhalb des Applikationsservers. (@Inject/@EJB)
+	\item[@Local] Die EJB, die ein solches Interface implementiert, kann von allen Modulen (z.B. einem WAR) innerhalb derselben JVM verwendet werden. „Innerhalb derselben JVM“ bedeutet also beispielsweise von allen Anwendungen innerhalb des Applikationsservers. (\verb|@Inject|/\verb|@EJB|)
 		
-	\item[@Remote] EJBs die ein solches Interface implementieren, können auch von Modulen ausserhalb der JVM, in der die Applikation läuft, erreicht werden. Dieser Interface-Typ wird vor allem von Application-Clients	genutzt, welche als native Java-Applikation an ein EJB-Modul andocken. Genau eine solche Konsolenapplikation werden wir am	Anfang zum Testen unserer Geschäftslogik verwenden. (@EJB)
+	\item[@Remote] EJBs die ein solches Interface implementieren, können auch von Modulen ausserhalb der JVM, in der die Applikation läuft, erreicht werden. Dieser Interface-Typ wird vor allem von Application-Clients	genutzt, welche als native Java-Applikation an ein EJB-Modul andocken. Genau eine solche Konsolenapplikation werden wir am	Anfang zum Testen unserer Geschäftslogik verwenden. (\verb|@EJB|)
 	
-	\item[no Interface / @LocalBean] „No interface“ (also keine Annotation) und die Annotation	@LocalBean meinen dasselbe. Solche EJBs sind nur für die Module innerhalb ihres EARs sichtbar.	(@Inject/@EJB)
+	\item[no Interface / @LocalBean] „No interface“ (also keine Annotation) und die Annotation \verb|@LocalBean| meinen dasselbe. Solche EJBs sind nur für die Module innerhalb ihres EARs sichtbar. (\verb|@Inject|/\verb|@EJB|)
 \end{description}
  
-Mit der Festlegung des Typs einer Session Bean legen wir fest, ob eine sie ihren Status über eine ClientSession hinweg behalten soll (@Stateful) oder eben nicht (@Stateless). Der UserService beispielsweise
+Mit der Festlegung des Typs einer Session Bean legen wir fest, ob eine sie ihren Status über eine ClientSession hinweg behalten soll (\verb|@Stateful|) oder eben nicht (\verb|@Stateless|). Der \verb|UserService| beispielsweise
 soll lediglich den User in der Datenbank suchen und falls er existiert zurückmelden, ob das Passwort stimmt. Natürlich sollen auch neue User eingetragen werden können. Um diesen Job zu erledigen muss
-sich die Bean aber keinen Status merken, deshalb erzeugen wir sie @Stateless. Beim ChatService sieht dies anders aus. Hier wollen wir uns merken, welcher User (also welcher angemeldete User, also welche Session) gerade mit der Bean kommuniziert. Deshalb ist sie stateful. Es gibt noch eine weitere Art von Session Bean, @Singleton.
+sich die Bean aber keinen Status merken, deshalb erzeugen wir sie \verb|@Stateless|. Beim \verb|ChatService| sieht dies anders aus. Hier wollen wir uns merken, welcher User (also welcher angemeldete User, also welche Session) gerade mit der Bean kommuniziert. Deshalb ist sie stateful. Es gibt noch eine weitere Art von Session Bean, \verb|@Singleton|.
 
 \section{Application Client}
 Wenn wir nun aus einer Java SE Umgebung auf die EJB zugreifen wollen müssen wir wie folgt vorgehen:
 \begin{itemize}
-	\item Beans müssen mit @Remote annotiert sein - da wir aus einer anderen JVM auf die Beans zugreifen wollen.
+	\item Beans müssen mit \verb|@Remote| annotiert sein - da wir aus einer anderen JVM auf die Beans zugreifen wollen.
 	\item Interfaces sollten daher auch in einem common-Projekt ausgelagert sein, damit es sowohl vom Bean-Projekt wie auch vom Client-Projekt verwendet werden kann.
 	\item Im Client-Projekt müssen wir beim Injecten den Lookup angeben \\ \verb|@EJB(lookup = "ch.hslu.edu.enapp.eatmemine.common.ChatServiceRemote")|.
 	\item Das Client Projekt wird innerhalb des EAR deployt und kann auf der Konsole wie folgt aufgerufen werden:
@@ -187,73 +188,21 @@ Wenn wir nun aus einer Java SE Umgebung auf die EJB zugreifen wollen müssen wir
 
 Ich weiss auch nicht genau was das bringen soll. So kann man einfach Konsolen-Applikationen erstellen, aber der Nutzen sehe ich nicht.
 
-\section{Java Server Faces}
-Früher hat man JSP (Java Server Pages) verwendet. JSF hat diese Technologie abgelöst. In JSF wird der Webteil in .xhtml abgehandelt. Es enthält extended HTML Tags. 
-
-\begin{lstlisting}
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-
-<h:head>
-	<title>index</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</h:head>
-<h:body>
-	<p>Das ist ein Test.</p>
-</h:body>
-\end{lstlisting}
-
-Es müssen Servlet-Mappings angegeben werden. Es werden nur xhtml-Dateien mit JSF verarbeitet, welche dem folgenden Pattern entsprechen:
-
-\begin{lstlisting}
-<servlet-mapping>
-	<servlet-name>Faces Servlet</servlet-name>
-	<url-pattern>*.xhtml</url-pattern>
-</servlet-mapping>
-
-<!-- Mit dieser Konfig sehen wir mehr Fehlemeldung -->
-<context-param>
-	<param-name>javax.faces.PROJECT_STAGE</param-name>
-	<param-value>Development</param-value>
-</context-param>
-\end{lstlisting}
-
-Um nun mit Java-Code zu interagieren, rufen wir aus den .xhtml Dateien sogenannte Managed Beans auf:
-
-\begin{lstlisting}
-<h:body>
-	<h:outputText value="#{chat.testMe}" />
-</h:body>
-
-@Named
-@SessionScoped
-public class Chat implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private final String testMe = "Hello World";
-	public String getTestMe() {
-		return testMe;
-	}
-}
-\end{lstlisting}
-
-Wenn mit Dependency Injection in diesem Umfeld gearbeitet wird, sollte man achten, dass man nur ein Framework verwendet (javax.enterprise.context.*).
-
 \section{WebSphere}
-Der WebSphere hat eine Admin-Shell-Konsole (/home/student/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/wsadmin.sh). Zudem ein webbasierte \emph{INtegrated Solution Console}  (Admin-Konsole, Web-Konsole) unter https://localhost:9043/ibm/console. Zudem gibt es den Universal Test Client. Dies ist auch eine Web-Oberfläche wobei man alle installierten Beans sehen kann und die Methoden direkt aufrufen. Beispielsweise müssen die gesamten Verbindungsdaten zur von App-Server zur DB professionel auf dem App-Server konfiguriert werden. Die Applikation soll nicht die Verbindungsdaten mitgeben, denn der Entwickler weiss zu diesem Zeitpunkt ja gar nicht, wohin die Ware deployt wird.
+Der WebSphere hat eine Admin-Shell-Konsole (/home/student/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/wsadmin.sh). Zudem ein webbasierte \emph{Integrated Solution Console}  (Admin-Konsole, Web-Konsole) unter https://localhost:9043/ibm/console. Zudem gibt es den Universal Test Client. Dies ist auch eine Web-Oberfläche wobei man alle installierten Beans sehen kann und die Methoden direkt aufrufen. Beispielsweise müssen die gesamten Verbindungsdaten zur von App-Server zur DB professionell auf dem App-Server konfiguriert werden. Die Applikation soll nicht die Verbindungsdaten mitgeben, denn der Entwickler weiss zu diesem Zeitpunkt ja gar nicht, wohin die Ware deployt wird.
 
 \subsection{Konfiguration DB-Verbindung}
 \begin{enumerate}
 	\item Anlegen eines JDBC Providers (für DB2)
 	\item Anlegen einer Data Source, welche über den angelegten JDBC Provider kommuniziert. Hier werden DB Name, Server Name und Port definiert. Das Schema muss über \emph{custom properties} separat definiert werden (currentSchema). Zudem muss auch der JNDI Namen eingetragen werden. Die Applikation kann sich auf diesen beziehen und so zur DataSource kommen.
 	\item Nun müssen noch die Credentials angelegt werden. Also JAAS - J2C authentication data. Darin wird ein Alias definiert sowie Benutzername und Passwort. Dieser Alias wird nun mit der DataSource gekoppelt.
-	\item Im \verb|persistence.xml| kann nun einfach \verb|<jta-data-source>jdbc/sbbrss</jta-data-source| definiert werden. Der ganze andere Verbindungs-Kram fällt weg.
+	\item Im \verb|persistence.xml| kann nun einfach \verb|<jta-data-source>jdbc/sbbrss</jta-data-source>| definiert werden. Der ganze andere Verbindungs-Kram fällt weg (also den JNDI).
 \end{enumerate}
 
 \subsection{Konfiguration JMS}
 \begin{enumerate}
 	\item Busname erzeugen
 	\item Destination definieren
-	\item Queue connection factoriy definieren (In den JDNI hängen)
+	\item Queue Connection Factoriy definieren (In den JDNI hängen)
 	\item Queue selbst definieren (In den JDNI hängen)
 \end{enumerate}
