@@ -12,10 +12,18 @@ In Java EE gibt es die folgenden Architekturen:
 
 Ausserdem erlaubt Java EE eine komponentenbasierte Entwicklung. Jede Komponente wird vom Container verwaltet, was die lokale und verteilte Interaktion unter den Komponenten erleichtert. Die Komponenten können durch einen Namensservice referenziert werden, was Standort-Transparenz ermöglicht. Die meisten Komponenten sind durch Interfaces definiert. Die Komponenten kommunizieren nur über das Interface miteinander (auch wenn auf gleicher JVM). Die Komponenten Infrastruktur stellt dafür auch Proxies zur Verfügung. Es gibt auch eine RMI Infrastruktur für verteilte Komponenten. Diese kümmert sich um das Marshalling/Unmarshalling von Argumenten und Rückgabewerten, das Übergeben von verteilten Exceptions und das Übergeben von Security- und Transaktions-Kontext.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\linewidth]{fig/webtier-tier-to-layer-mapping}
+\caption{Tier to Layer Mapping}
+\label{fig:webtier-tier-to-layer-mapping}
+\end{figure}
+
+
 \section{Servlet}
 
 Ein Servlet ist ein Java Programm welches in einem Web- oder Applikationsserver läuft und das \verb|javax.servlet.Servlet|-Interface implementiert. Servlets werden für Anfragen und Antworten vom Internet Clients oder Browsers verwendet. Das Standard Protokoll für die Kommunikation zwischen Browser und Servlet ist HTTP oder HTTPS. Alle Servlets müssen das Servlet Interface direkt oder indirekt implementieren. Dazu schreiben Sie ein generisches Servlet das
-\verb|javax.servlet.GenericServlet| erweitert oder ein HTTP-Servlet das \verb|javax.servlet.http.HttpServlet| erweitert.
+\verb|javax.servlet.GenericServlet| erweitert oder ein HTTP-Servlet das \verb|javax.servlet.http.HttpServlet| erweitert. Die Servlet sind im Laufe der Zeit erweitert worden, in der aktuellen Version 3.1 wurden Websockets hinzugefügt und in Java EE 8 wird Version 4.0 der Servlets mit Integration des HTTP Protokoll 2.0 erscheinen.
 
 Folgende Gründe sprechen für Servlets:
 
@@ -150,3 +158,82 @@ Mit einer Session Facade können Business Funktionen anderen Clients angeboten w
 \subsection{Data Access Object}
 
 Der Zugriff und die Manipulation der Daten soll in einem separaten Layer gekapselt werden. 
+
+\section{Kontrollfragen}
+
+\subsection{Zeigen Sie die Vorteile des Komponenten basierten entwickeln auf.}
+\begin{itemize}
+	\item SRP - Single Responsibilty Principle
+	\item Parallelentwicklung
+	\item Vereinfacht die Entwicklung von grossen Systeme
+	\item Einzelne Komponenten können ausgetauscht werden (Wiederverwendbarkeit)
+	\item Erzeugen Standorttransparenz
+	\item Die Komponenten können anhand eines Namesservices auf ihren Namen referenziert werden
+\end{itemize}
+
+\subsection{Welches sind die gängigsten Patterns von einer Web Applikation?}
+\begin{itemize}
+	\item Service Locator
+	\item View Helper
+	\item Session Facade
+	\item Data Access Object (DAO)
+\end{itemize}
+
+\subsection{Wieso verwendet man Servlets? Zählen Sie ein paar Vorteile, vielleicht auch Nachteile auf!}
+Vorteile:
+\begin{itemize}
+\item Verwaltet Anfragen und Antworten (http Request / Response)
+\item Multi Threading (CGI war es nicht) (Jede neue Anfrage erzeugt einen neuen Thread)
+\item Benutzt Java Language (write once, run anywhere)
+\item Verteilbar (RMI, Corba, INDI)
+\item Ein Heer von Programmierern
+\item Viele Komponenten verfügbar
+\item Sehr stabile Container (Tomcat, BEA, Sun, etc.)
+\item Ideal für kleine Applikationen (Servlets only)
+\end{itemize}
+
+Nachteile:
+\begin{itemize}
+\item Compile/Deploy Zyklus
+\item HTML Wissen vorausgesetzt
+\item Debugging ist umständlich
+\end{itemize}
+
+\emph{Servlets wurden eingeführt aufgrund des Multi-Threading.}
+
+\subsection{Welche 2 Objekte werden sofort erzeugt wenn ein Servlet aufgerufen wird?}
+Servlet Request, Servlet Response
+
+\subsection{Von welcher Klasse ist ihr selber geschriebenes Servlet abgeleitet?}
+HTTPServlet
+
+\subsection{Für welche http Request Typen stellt das Servlet Methoden zu deren Verarbeitung zur Verfügung?}
+GET, POST, HEAD, PUT, DELETE, TRACE, OPTIONS
+
+\subsection{Welche Methoden überschreiben Sie wenn Sie eine HTTP POST Anfrage speziell behandeln möchten?}
+doPost()
+
+\subsection{Wo können Sie obige Methode auch implementieren, resp. von wo aus können Sie sie auch aufrufen?}
+Service() Methode
+
+\subsection{Zeichnen Sie den Lebenszyklus eines Servlets auf!}
+Siehe Abbildung oben.
+
+\subsection{Wenn Sie bei den Antworten Ihres Servlets einen String entfernen möchten, welches Werkzeug bietet Ihnen der Servlet Standard?}
+Filter Methoden / Filter Chains - Kaskadierbar, verschachtelbar.
+
+\subsection{Geben Sie mir eine Definition „was ist ein Servlet?“ ab}
+Ein Servlet ist ein Java Programm, welches in einem Webserver läuft. Und gibt Antworten auf Anfragen von Internet-Clients. Weitere Stichworte: Java, Java Programm, Interface, Web-Servlets, Thread. 
+
+Joho: \emph{Java Programm, dass auf einem Webserver läuft. Implementiert Java-Interfaces. Es gibt Antworten auf die Anfragen von Internet Clients über das Standard HTTP Protokoll. Stellt zusätzliche Funktionalität zur Verfügung, z.B. Multithreading}
+
+Wiki: \emph{Als Servlets bezeichnet man Java-Klassen, deren Instanzen innerhalb eines Webservers Anfragen von Clients entgegennehmen und beantworten. Der Inhalt der Antworten kann dabei dynamisch, also im Moment der Anfrage, erstellt werden und muss nicht bereits statisch (etwa in Form einer HTML-Seite) für den Webserver verfügbar sein. Servlets stellen somit das Java-Pendant zu CGI-Skripten oder anderen Konzepten dar, mit denen dynamisch	Web-Inhalte erstellt werden können (PHP, Ruby on Rails, Active Server Pages etc.)}
+
+\subsection{Versuchen sie die Begriffe Tiers und Layers zu erklären}
+Tiers sind physikalische Sicht und die Layers sind die logische Sicht.
+
+\subsection{Welche Möglichkeiten haben sie für das Session Management?}
+Cookies, ID über Session-Scope.
+
+\subsection{Welche Scopes bietet JSF an?}
+Application, Session, Request. \emph{Flow, Dependend}.
