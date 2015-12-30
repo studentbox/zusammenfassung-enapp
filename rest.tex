@@ -1,8 +1,10 @@
 \chapter{REST Service}
+REST ist die Ph.D. Dissertation von Roy Fielding
+welche ein Design Pattern für die Implementation von vernetzten Systemen beschreibt.
 
 \section{HTTP Protokoll}
 
-Eine HTTP-Anfrage besteht aus einem Header und einem Payload. Listing \ref{lst:http-anfrage} zeigt eine POST-Anfrage an den Host http://www.amazon.com. 
+Eine HTTP-Anfrage besteht aus einem Header (HTTP Data) und einem Payload (Form Data). Listing \ref{lst:http-anfrage} zeigt eine POST-Anfrage an den Host http://www.amazon.com. 
 
 \begin{lstlisting}[caption=HTTP-Anfrage, label=lst:http-anfrage]
 POST / HTTP/1.1
@@ -23,27 +25,28 @@ Das HTTP-Protokoll stellt folgendes Set an einfachen Operationen bereit:
 	\item[DELETE] Informationen löschen (Delete) 
 \end{description}
 
+\emph{PUT sowie POST können beide für Create wie auch für Update verwendet werden. Sie werden jedoch unterschiedlich verwendet. POST wird immer auf eine 'generische' URL verwendet. Beispiel http://127.0.0.1/user , die Anfrage für einen neuen User beinhaltet nichts spezielles beim Update wird auch diese Url genommen jedoch im Request Body ist die ID des Benutzer enthalten. PUT arbeitet immer auf eindeutige Ressourcen hin. Beispiel http://127.0.0.1/user/1 , beim Erstellen definiert der Client somit quasi die ID (durchaus möglich), beim Update wird auch auf diese Url gearbeitet.}
+
 Die obere Auflistung zeigt dass die HTTP API das CRUD-Paradigma erfüllt. Um eine Ressource zu identifizieren kann eines der folgenden Konzepte gewählt werden:
 
 \begin{description}
 	\item[Uniform Resource Locator (URL)] ist vom Typ URI und ist eine Referenz auf eine Web Ressource. Um ein Buch zu finden braucht man eine Lokation z.B. file:///home/username/books
 	\item[Uniform Resource Name (URN)] sagt nichts aus über die Verfügbarkeit einer Ressource. z.B. eine ISBN Nummer ist eine URN.
-	\item[Uniform Resource Identifier (URI)] folgt einem URI Schema (RFC 396) - können klassifiziert werden als Namen, Lokator oder beides.
+	\item[Uniform Resource Identifier (URI)] folgt einem URI Schema (RFC 396) - können klassifiziert werden als Namen (URN), Lokator (URL) oder beides.
 \end{description}
 
 \section{Architektur}
 
-Beim REST-Architekturstil (Representational State Transfer) referenziert ein Client über eine URL eine Ressource. Eine \textit{Repräsentation} dieser Ressource wird zurückgegeben. Dadurch wird der Client in einen neuen \textit{Status} versetzt. Wenn der Client einem Hyperlink in der Repräsentation folgt, greift er auf eine andere Ressource zu. Diese neue Repräsentation \textit{transferiert} den Client in einen neuen Status. Der Client wechselt also seinen Status mit jeder Ressourcen Repräsentation.
+Beim REST-Architekturstil (Representational State Transfer) referenziert ein Client über eine URL eine Ressource. Eine \textit{Repräsentation} dieser Ressource wird zurückgegeben. Dadurch wird der Client in einen neuen \textit{Status} versetzt. Wenn der Client einem Hyperlink in der Repräsentation folgt, greift er auf eine andere Ressource zu. Diese neue Repräsentation \textit{transferiert} den Client in einen neuen Status. Der Client wechselt also seinen Status mit jeder Ressourcen Repräsentation. \emph{(a virtual state-machine)}
 
-REST ist kein kein Standard aber es gibt REST-Frameworks, welche einem die Entwicklung erleichtern. Folgende REST-Paradigmen sollen helfen einen korrekten REST-Service zu entwerfen:
-\begin{itemize}
-	\item Für jeden Service wird eine Ressource erzeugt
-	\item Identifiziere jede Ressource unter Verwendung einer URL.
-	\item Die Daten, die von einem Web Service retourniert werden, sollten Links zu anderen Daten enthalten.
-\end{itemize}
+REST ist kein kein Standard aber es gibt REST-Frameworks, welche einem die Entwicklung erleichtern. REST ist nur ein Design-Pattern. Es wird keinen W3C Standard geben. REST beschreibt die Verwendung von Standards, wie: HTTP, URL, Ressourcen (HTML, XML, GIF, ..) und MimeTypes. Folgende REST-Paradigmen sollen helfen einen korrekten REST-Service zu entwerfen:
+\begin{description}
+	\item[Paradigma 1:] Für jeden Service wird eine Ressource erzeugt. Identifiziere jede Ressource unter Verwendung einer URL.
+	\item[Paradigma 2:] Die Daten, die von einem Web Service retourniert werden, sollten Links zu anderen Daten enthalten.
+\end{description}
 Daraus kann man schliessen dass man seine Daten als ein Netzwerk von Informationen planen sollte (Im Gegensatz zum OOP wo die Kapslung empfohlen wird).
 
-Eine REST-Architektur besteht aus folgenden Elementen:
+\paragraph{Eine REST-Architektur besteht aus folgenden Elementen:}
 \begin{description}
 	\item[Ressource] besteht aus Daten und Beziehungen zu anderen Ressourcen
 	\item[Ressource Identifikation] identifiziert die Ressource eindeutig (URL, URN)
@@ -64,4 +67,68 @@ Das Web ist aus folgenden Komponenten zusammengesetzt:
 \end{description}
 All diese Komponenten treffen Entscheidungen aufgrund vom HTTP Header. REST macht sich diese HTTP Header zu nutze um diese Komponenten auf einfache Weise zu steuern. So kann z.B. ein Proxy Server anhand der URL und der HTTP Methode herausfinden ob ein Zugriff erlaubt ist. In SOAP gehen alle Anfragen an die gleiche URL und der Methodennamen ist im Payload verborgen. Der Proxy müsste also in den Payload schauen (ist nicht immer möglich z.B. wenn verschlüsselt).
 Zudem lassen sich REST-Anfragen einfach cachen. Alle nötigen Informationen werden über die HTTP Header zur Verfügung gestellt. In SOAP ist ein Caching kaum möglich, weil jedes mal in den Envelope geschaut werden müsste, um die Methode herauszufinden. 
-REST Services halten sich an gewisse Standards (z.B. URL, HTTP-Methoden), dadurch können unabhängige Ressourcen untereinander besser kommunizieren. In SOAP kann jeder Entwickler seine Schnittstelle selbst definieren. Deshalb müssen Tools oft angepasst werden. 
+REST Services halten sich an gewisse Standards (z.B. URL, HTTP-Methoden), dadurch können unabhängige Ressourcen untereinander besser kommunizieren. In SOAP kann jeder Entwickler seine Schnittstelle selbst definieren. Deshalb müssen Tools oft angepasst werden. \emph{(Steck deine Nase nicht in den HTTP Payload.)}
+
+\paragraph{Fazit}
+Die drei fundamentalen Aspekte von REST Design Pattern sind: Einfache Operationen, URLs und Ressourcen.
+
+\section{Safe methods vs. idempotent}
+Safe Methods modifzieren eine Ressource nicht. GET, HEAD oder OPTIONS dürfen den Status der Ressource nicht verändern. Bzw. sie dürfen natürlich Dinge verändern auf dem Server wie beispielsweise einen Counter, aber nicht die Ressource in der Repräsentation. Dabei geht es um einen Aufruf. Idempotent Methoden sind Methoden, welche x-mal aufgerufen werden kann ohne, dass etwas anderes zurückkommt. Das bezieht sich auch wieder nur auf das Resultat und nicht die Ressource selber. Dabei geht es um die Anzahl Aufrufe.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\linewidth]{fig/rest-methods}
+\caption{HTTP-Methods}
+\label{fig:rest-methods}
+\end{figure}
+
+
+\section{Kontrollfragen}
+
+\subsection{Wie ist der ReST Standard definiert und welchem Komitee 1. unterliegt er?}
+ReST beschreibt keinen Standard und unterliegt keinem Gremium. Es ist ein Design Pattern. Joho sagt: es wird keinen W3C-Standard über ReST geben.
+
+\subsection{Welche Standards verwendet ReST?}
+\begin{itemize}
+	\item Generisches Ressourcen-Interface (HTTP-Methoden)
+	\item Adress- und Namensgebungen (URL bzw. URI)
+	\item Ressourcen-Repräsentationen (HTML, XML, JPG, …)
+	\item Medientypen (MIME types wie text/html, text/json, …)
+\end{itemize}
+
+\subsection{Was ist ReST genau?}
+ReST ist ein Design Pattern, das beschreibt, wie das Web funktionieren sollte (ursprüngliche Idee). Entstanden ist ein wegweisendes und anerkanntes Framework und Web Standards und Web Service Design. Im Gegensatz zu den herkömmlichen WebServices, welche SOAP verwenden, hat es zudem weniger Overhead.
+
+\subsection{Welche 4 grundlegenden (web)Operationen liegen dem im ReST (HTTP API)}
+\begin{itemize}
+	\item HTTP POST: Create new information under the resource (also update)
+	\item HTTP GET: Retrieve information from resource
+	\item HTTP PUT: Update information under the resource (also post)
+	\item HTTP DELETE: Delete information under the resource
+\end{itemize}
+
+\subsection{Die BookID von Alice im Wunderland ist 15608. Die URL ist: http://www.kaufen.ch/books/getBook?id=15608 Wie könnte die URL ReST konform aussehen?}
+http://www.kaufen.ch/books/15608
+
+\subsection{Wieso war Fielding so darauf bedacht, alle Ressourcen im Web mit in sein Design einzubeziehen?}
+??? / Ich denke damit alle sich miteinander vernetzen können.
+
+\subsection{Was muss in einem ReST konformen Design in der Antwort enthalten sein?}
+Die Rückgabe von Informationen soll so erfolgen, dass sie darin Informationen zu weiteren Informationen enthalten sind: Die Daten, die von einem Web Service retourniert werden, sollten Links zu anderen Daten enthalten. D.h. die Information, die eine Ressource an den Client zurückgibt, verlinkt wieder auf weitere Informationen in einem Netzwerk gleichartiger Informationen. (Zudem auch der Mime Type).
+
+\subsection{Beschreiben sie genau den Aufbau vom ReST Design Pattern.}
+\begin{description}
+	\item[Ressourcen:] Jede unterscheidbare Entität ist eine Ressource. Eine Ressource kann eine Web Seite, eine HTML Page, ein XML Dokument, ein Web Service, ein physikalisches Device, etc. sein.
+	\item[URLs (identifizieren Ressourcen):] Jede Ressource wird einzigartig identifiziert durch eine URL. Das ist Tim Berners-Lees Web Design Axiom 0.
+	\item[Einfache Operationen:] Simple CRUD Operationen wie das HTTP API.
+\end{description}
+
+\subsection{Beschreiben sie genau den Aufbau vom ReST Design Pattern}
+\begin{itemize}
+	\item Kreiere eine Ressource für jeden Service.
+	\item Identifiziere jede Ressource mit einer logischen URL.
+	\item Kreiere deine Informationen so, dass sie zu anderen Informationen verlinken und zwar so, dass die Information die eine Ressource an den Client zurückgibt wieder auf weitere Informationen in einem Netzwerk gleichartiger Informationen verlinkt.
+	\item Alle Interaktionen zwischen einem Client und einem Webservice werden mit sehr einfachen Operationen gemacht. Die meisten Web Interaktionen werden mit HTTP und nur 4 Operationen gemacht: GET / PUT / POST / DELETE.
+	\item Erinnern wir uns, dass die Entscheidungen der Web Komponenten (Firewalls, Routers, Caches) auf Informationen vom HTTP Header machen. Konsequenterweise muss die Destination-URL aus Effizienz Gründen im HTTP Header platziert werden.
+	\item Umgekehrt ist es „anti-REST“ wenn der Header eine Zwischenstation und der Payload die Endstation definiert.
+\end{itemize}
