@@ -168,7 +168,7 @@ Jars können signiert werden: \verb|jarsigner enapp_ee_security_uebung01.jar .hs
 
 
 \section{JAAS}
-Bisher haben wir mit der Java Platform Security ein \emph{codezentriertes Sicherheitsmodell} gesehen, welches nach Herkunft des Codes die Zugriffskontrolle sicherstellt. Die Java Platform Security wird durch JAAS (Java Authentication and Authorization Service) erweitert, welches ein \emph{benutzerzentriertes Sicherheitsmodell} darstellt. JAAS ist für Multiuser-Applikationen wichtig und die Standardimplementierung des JEE-deklarativen Sicherheitsmodell.
+Bisher haben wir mit der Java Platform Security ein \emph{codezentriertes Sicherheitsmodell} gesehen, welches die Herkunft des Codes die Zugriffskontrolle sicherstellt. Die Java Platform Security wird durch JAAS (Java Authentication and Authorization Service) erweitert, welches ein \emph{benutzerzentriertes Sicherheitsmodell} darstellt. JAAS ist für Multiuser-Applikationen wichtig und die Standardimplementierung des JEE-deklarativen Sicherheitsmodell.
 
 \subsection{JAAS-Objects}
 Benutzer können sowohl Personen wie auch Dienste (Subjects) sein. Davon kann jedes mehrere Identitäten (Principal - Name, Email, Kreditkartennummer) und Berechtigungen (Credentials - Passwort, Zertifikat, Keys) besitzen. 
@@ -222,9 +222,10 @@ Mit deklarativer Security kann der Zugriff auf Beans und Methoden reguliert werd
 	
 	\item Zum Schluss wird das Mapping der Gruppen zu den deklarierten Rollen im herstellerspezifischen Deployment Deskriptor definiert.
 \end{enumerate}
-  
 
-\begin{lstlisting}
+Listing \ref{lst:deklarative-security} zeigt wie deklarative Security im EJB-Tier umgesetzt wird. Es wird die Möglichkeit mit XML und mit Annotationen gezeigt.
+
+\begin{lstlisting}[caption=Deklarative Security im EJB-Tier, label=lst:deklarative-security]
 // Schritt 1 - Deployment Deskriptor
 <enterprise-beans>
 	<assembly-descriptor>
@@ -268,10 +269,9 @@ public String getSalary(String name) {
 </security-role-mapping>
 \end{lstlisting}
 
-Annotationen sind gut geeignet für einfachere Applikationen - übersichtlich und direkt im Code sichtbar. Für umfangreichere Applikation ist die Verwendung der Deployment-Deskriptoren besser geeignet. Die Konfiguration ist ersichtlich ohne, dass im Code nachgeschaut werden muss \emph{(Anmerkung Autor: Ich bin nicht dieser Meinung)}.
+Annotationen sind gut geeignet für einfachere Applikationen - übersichtlich und direkt im Code sichtbar. Für umfangreichere Applikation ist die Verwendung der Deployment-Deskriptoren besser geeignet. Die Konfiguration ist ersichtlich ohne, dass im Code nachgeschaut werden muss \emph{(Anmerkung Autor: Ich bin nicht dieser Meinung)}. Listing \ref{lst:programmatische-security} zeigt wie die programmatische Security im EJB-Tier umgesetzt wird.
 
-\begin{lstlisting}[language=Java]
-// Alternativ die programmatische Security
+\begin{lstlisting}[caption=Programmatische Security im EJB-Tier, label=lst:programmatische-security]
 // Schritt 1: Programmieren
 
 public double getSalary(String employeeId) {
@@ -286,9 +286,7 @@ public double getSalary(String employeeId) {
 		throw new SecurityException("access denied");
 	}
 }
-\end{lstlisting}
 
-\begin{lstlisting}[language=xml]
 <!-- Schritt 2: Abstrakte Security Rolle -->
 <security-role-ref>
 	<description>abstract manager role</description>
@@ -317,7 +315,7 @@ Authentication ist Aufgabe des EJB-Containers und muss nicht implementiert werde
 	\item[Option 2:] (Best Practice): Im Web-Tier werden die Informationen ermittelt und die Authentifizierung auch gleich durchgeführt. Der Web-Tier leitet die Identity des Benutzer in Form einer Principal-Instanz an den EJB-Tier weiter. 
 \end{description}
 
-Was ist aber, wenn wir keinen Web-Tier dazwischen haben und ein Client sich direkt gegen einen EJB-Container authentifizieren soll? Dafür könnte man ein JAAS-Login machen oder besser einen Client-Container verwenden, welcher aber herrstellerspezifisch ist (best practice). Dabei muss der Client-Container die User Credentials ermitteln und den Benutzer gegen den EJB Server authenfizieren. Der Client-Container wrappt die den EJB-Client und wird zum Deployment-Zeitpunkt instanziert.
+Was ist aber, wenn wir keinen Web-Tier dazwischen haben und ein Client sich direkt gegen einen EJB-Container authentifizieren soll? Dafür könnte man ein JAAS-Login machen oder besser einen Client-Container verwenden, welcher aber herstellerspezifisch ist (best practice). Dabei muss der Client-Container die User Credentials ermitteln und den Benutzer gegen den EJB Server authentifizieren. Der Client-Container wrappt die den EJB-Client und wird zum Deployment-Zeitpunkt instanziert.
 
 \emph{P.S: EIS heisst Enterprise Information Layer. Und wird bei Zeichnungen oft nach dem EJB-Tier dargestellt.} 
 
@@ -341,7 +339,7 @@ Was ist aber, wenn wir keinen Web-Tier dazwischen haben und ein Client sich dire
 \end{description}
 
 \subsection{Java Platform Security: Wie kann einem Applet Zugriff auf lokale Ressourcen z.B. Lese- oder Schreibrechte auf ein lokales File gegeben werden?}
-Java-Applets sind bekannt dafür, dass die auf Internet-Seiten integriert sind. Wenn diese ausgeführt werden, wird zwischen \emph{sandbox applets} und \emph{privileged applets} unterschieden. Sandbox-Applets laufen innerhalb eines Security-Context, welche nur sichere Operationen erlaubt. Pivileged-Applets laufen ausserhalb des Security-Context. Applets, welche nicht signiert sind, können nur innerhalb der Sandbox laufen. Signierte Applets, mit einem Zertifikat von einer CA, können innerhalb des Security-Context laufen und können eine Anfrage stellen, dass diese ausserhalb dieses Kontext laufen dürfen. Dazu muss im Policy-File die Grants definiert werden. Generell wird der Benutzer immer aufgefordert, wenn spezielle Berechtigungen für das Applet nötig sind. Will man aber einem Applet, welches im Security-Context läuft, zusätzliche Berechtigungen geben, dann muss ein Policy-File erstellt werden:
+Java-Applets sind bekannt dafür, dass die auf Internet-Seiten integriert sind. Wenn diese ausgeführt werden, wird zwischen \emph{sandbox applets} und \emph{privileged applets} unterschieden. Sandbox-Applets laufen innerhalb eines Security-Context, welche nur sichere Operationen erlaubt. Privileged-Applets laufen ausserhalb des Security-Context. Applets, welche nicht signiert sind, können nur innerhalb der Sandbox laufen. Signierte Applets, mit einem Zertifikat von einer CA, können innerhalb des Security-Context laufen und können eine Anfrage stellen, dass diese ausserhalb dieses Kontext laufen dürfen. Dazu muss im Policy-File die Grants definiert werden. Generell wird der Benutzer immer aufgefordert, wenn spezielle Berechtigungen für das Applet nötig sind. Will man aber einem Applet, welches im Security-Context läuft, zusätzliche Berechtigungen geben, dann muss ein Policy-File erstellt werden:
 
 \begin{lstlisting}
 grant signedBy "signer_names", codeBase "http://geosim.cs.vt.edu/geosim/-" {
