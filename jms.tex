@@ -7,6 +7,7 @@ Bei einem klassischen Methoden-Fernaufruf (RMI) ruft der Client eine Methode bei
 	\item One-to-many Kommunikation (z.B. Topic-Queue)
 	\item Garantierte Lieferung
 	\item Transaktionen
+	\item Asynchrone Kommunikation
 \end{itemize}
 
 Die JMS API ist sowohl im EJB Container als auch im Client Container von Java EE vorhanden. In JMS gibt es zwei Architekturen wie Nachrichten versendet werden:
@@ -16,7 +17,7 @@ Die JMS API ist sowohl im EJB Container als auch im Client Container von Java EE
 	\item[Publish / Subscribe] Die Topic-Queue hält alle Messages bis sie von allen Subscribern konsumiert wurden. Fällt ein Subscriber aus, behält die Topic-Queue die Message bis der Consumer zurückkommt.
 \end{description}
 
-Eine JMS Applikation besteht aus folgenden Bausteinen (siehe Abbildung \ref{fig:jms-overview}):
+Daraus ist zu entnehmen, dass es zwei \emph{Destinationen} gibt: Queue und Topic. Die Bezeichnung Message-Queue und Topic-Queue sind nach JMS nicht korrekt. Die Destination ist für das Empfangen, Halten und Verteilen von Nachrichten zuständig. Eine JMS Applikation besteht aus folgenden Bausteinen (siehe Abbildung \ref{fig:jms-overview}):
 
 \begin{figure}
 \centering
@@ -119,3 +120,49 @@ MDB sind ähnlich zu Stateless Beans, halten also keine Daten oder Status für e
 
 
 \section{Kontrollfragen}
+
+\subsection{Welche Sevices kennen Sie die auf Messages beruhen und wo liegen deren Vorteile?}
+
+\begin{itemize}
+	\item JMS (Java Messaging Service)
+	\item Web Service
+\end{itemize}
+
+\begin{itemize}
+	\item lose Kopplung
+	\item asynchrone Kommunikation
+	\item transparente Aufgabenverteilung
+	\item garantierte Abarbeitung
+	\item einfache, hohe Integrationsfähigkeit
+	\item plattformübergreifende Applikationen sind dadurch möglich
+	\item Robust
+	\item Messages bleiben in der Queue / Topic bis der Empfänger diese entgegennimmt
+\end{itemize}
+
+\subsection{Welche Message Typen kennt JMS?}
+\begin{itemize}
+	\item StreamMessage: Ein Stream von primitiven Java Werten, aufgefüllt und gelesen sequentiell.
+	\item TextMessage: Ein java.lang.String Objekt
+	\item ObjectMessage: ein serialisierbares Java Objekt
+	\item ByteMessage: ein Stream von un-interpretierten Bytes oder binären Daten
+	\item MapMessage: Ein Set von Werte-Paaren, z.B: Hash Table
+\end{itemize}
+\emph{MEP: Kann man nur Texte versenden oder auch anders? Nein - alles Mögliche.}
+
+\subsection{Welche Aufgabe fällt dem Message Broker zu?}
+Er ist der Vermittler zwischen dem Sender und Empfänger. Er nimmt die Messages entgegen, haltet sie und stellt sicher, dass diese zu einem späteren Zeitpunkt dem Empfänger zugestellt werden.
+
+\subsection{Welche 2 Nachrichtenmodelle kennen Sie?}
+\begin{description}
+	\item[Queue:] Point to Point Architektur - Die Message-Queue kann mehrere Consumer haben. Wenn einer der Consumer die Message von der Queue konsumiert (liest), dann wird diese gelöscht.
+	\item[Topic:] Publish / Subscribe Architektur - Die Topic-Queue hält alle Messages bis sie von allen Subscribern konsumiert wurden. Fällt ein Subscriber aus, behält die Topic-Queue die Message bis der Consumer zurückkommt.
+\end{description}
+
+\subsection{In der Spezifikation heisst es, dass Java Messages aus allen JEE5 Komponenten versendet werden können. Wie werden im Gegensatz dazu Java Messages in einem JEE5 kompatiblen Application Server empfangen? Wie funktioniert dieser Vorgang?}
+Ein JEE5 kompatibler Application Server ermöglicht es Message Driven Beans (MDB) zu erzeugen. Genauso besitzt er eine (oder mehrere) JMS Listener Queues, die Nachrichten empfangen können. Trifft eine Nachricht ein und das MDB hat sich zu dieser Queue eingeschrieben, dann wird die onMessage() Methode aufgerufen.
+
+\subsection{Im Gegensatz zu JMS verwendet JAX-WS ein Protokoll das normiert ist und eigentlich auch von „nicht Java“ Beteiligten verstanden wird. Wie heisst dieses und wie ist es aufgebaut?}
+Es nennt sich SOAP und besteht aus einem Envelope (XML). Dieser Envelope besteht aus einem Header und einem Body.
+
+\subsection{Welche Dienste und welche Spezifikation sind für einen verteilten Web Service notwendig?}
+Der Client, der Server und der UDDI. Der Server publiziert das WSDL beim UDDI. Der Client liest das WSDL beim UDDI und greift anschliessend direkt auf den Server zu. UDDI hat sich in der Praxis nicht durchgesetzt.
