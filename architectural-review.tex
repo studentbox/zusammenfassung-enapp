@@ -1,1 +1,39 @@
 \chapter{Architectural Review}
+\section{Arbeit als Architekt}
+Der Architekt in einem Scrum Team sind nach Definition alle. Es entscheidet aber der mit dem meisten Expertenwissen. Agil ist nicht demokratisch, aber jeder hat das Recht, zu sprechen.
+
+Als Architekt muss man sich bei Entscheidungen immer die Vorteile und Nachteile genau anschauen und anschliessend entscheiden. Die getroffene Entscheidung muss dann nicht einfach dokumentiert werden und dann im Wiki verstauben, sondern muss weitreichend kommuniziert werden, d.h. man muss die entsprechenden Entwickler von der Architektur überzeugen.
+
+Ist ein Entscheid noch nicht so klar, macht man einfach mal ein Test - also ein Spike. Also z.B. einfach mal eine MongoDB aufstarten, und schauen wie das so tut. Wichtig für Entscheidungen sind immer Daten \& Fakten. 
+
+Die Architektur wird beeinflusst von den Kundenbedürfnissen, den technischen Randbedingungen sowie dem Budget. Herauskommen tut üblicherweise Software. 
+
+Sobald das System dann hinreichend komplex ist, finden sich widersprüchliche Anforderungen, dies wurde sogar mathematisch bewiesen. Deswegen muss man immer den Ansatz eines \textit{Evolutionary Designs} wählen, da zu Beginn diese widersprüchlichen Anforderungen nicht immer so klar sind.
+
+
+\section{Arbeit als Entwickler}
+Die Bedürfnisse eines Entwicklers sind:
+\begin{enumerate}
+	\item \textbf{Autonomie} \\
+		Es ist nicht cool, wenn man ständig verliert, d.h. Entscheidungen vorgegeben werden. Es ist auch nicht spannend, wenn man immer gewinnt. Am besten ist es, wenn man jeweils knapp gewinnt oder verliert.
+	\item \textbf{Purpose} \\
+		Wenn dem Entwickler bewusst ist, für was man sich einsetzt. Dies kann z.B. ein Defibrillator sein, der Leben rettet. Nur Geld als Motivation wäre falsch.
+	\item \textbf{Mastery} \\
+		Wenn der Chef mittelfristig immer noch besser ist als der Entwickler, hat man als Entwickler etwas falsch gemacht.
+\end{enumerate}
+
+\section{Fehlerkultur}
+Was macht man, wenn der Kunde einen Bug entdeckt, der ihm Kosten verursacht? Man bezahlt im diese Kosten. Klar kann man nie eine fehlerfreie Software garantieren. Aber wenn man es gar nicht erst versucht, wird man eine fehleranfällige Software produzieren. Deswegen ist die Einstellung zu Fehlern so wichtig - wenn einer beim Kunden auftritt, wird er dafür entschädigt. Denn Fehler sind die Ausnahme, nicht die Norm.
+
+\textit{TDD} - Test Driven Development erhöht die Produktivität. \textit{BDD} - Beahviour Driven Development und \textit{ATDD} - Acceptance Test Driven Development funktionieren aber nur gut, wenn der Compile / Test / Feedback Loop unter 10s geht. Das heisst, dass keine Filesystem Operationen in Tests gemacht werden dürfen, keine Netzwerk Operationen usw.
+
+\section{Agiles Entwicklen}
+Der Friedhof ist voller unersetzlicher Menschen. Aber die Welt dreht sich ja immer noch weiter. Vorsicht vor Burnouts.
+
+Agiles Entwickeln schreibt vor, dass immer ein funktionierendes Stück Software vorhanden sein muss. Ein gutes Beispiel für solche \textit{always working software} wäre Google Chrome. Wenn dort 10\% der User nicht auf das Internet kommen, verursacht dies riesige Schäden. Trotzdem werden laufend Commits in den Master Branch gepusht. Wenn ein Fehler auftritt, so wird dieser halt wieder zurückgenommen.
+
+\section{Produktentwicklung}
+Warum braucht eine Firma überhaupt Geld? - Zum Überleben. Das heisst, die entwickelten Produkte (nicht Projekte! Produkte.) innerhalb einer Firma müssen diesem Zweck ebenfalls dienen.
+
+\section{Tools}
+Wieso haben Sie noch keine PCI SSD? Damit geht alles viel schneller! ASCII Doctor kann Dokumentationen z.B. als PDF generieren. Gradle ist ein gutes Build Tool und IntelliJ die beste IDE (sorry Alex).
