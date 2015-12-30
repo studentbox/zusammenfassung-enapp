@@ -166,7 +166,6 @@ grant {
 \subsection{Jar-Signierung}
 Jars können signiert werden: \verb|jarsigner enapp_ee_security_uebung01.jar .hsluKeystore|. Dabei werden Public-Key und das Zertifikat in das Jar miteingepackt. Benutzer des Jars können dann das Jar verifizieren.
 
-
 \section{JAAS}
 Bisher haben wir mit der Java Platform Security ein \emph{codezentriertes Sicherheitsmodell} gesehen, welches die Herkunft des Codes die Zugriffskontrolle sicherstellt. Die Java Platform Security wird durch JAAS (Java Authentication and Authorization Service) erweitert, welches ein \emph{benutzerzentriertes Sicherheitsmodell} darstellt. JAAS ist für Multiuser-Applikationen wichtig und die Standardimplementierung des JEE-deklarativen Sicherheitsmodell.
 
@@ -175,10 +174,6 @@ Benutzer können sowohl Personen wie auch Dienste (Subjects) sein. Davon kann je
 
 \subsection{JAAS-Architecture}
 JAAS stellt schlussendlich nur APIs zur Verfügung und zwar für beide Seiten. Zum einem für die Applikations-Entwickler und zum anderen für Security-Softwarehersteller. Für zweiteres stellt JAAS sogenannte SPIs zur Verfügung, welche implementiert werden können. So kann ich das Login Modul austauschen von Kerberos auf LDAP oder vielleicht auf Smartcard.
-
-
-
-
 
 \section{Java EE Security}
 Java EE ist eine Plattform für die Entwicklung von verteilten Systemen. Das Design der Plattform ist dabei auf die Entwicklung und das Deployment von \emph{sicheren} Systemen ausgelegt. Trotzdem sind noch längst nicht alle Security-Themen adressiert. Es beinhaltet sichere und robuste API's sowie SPI's (service provider interface) für die Produktehesteller von Sicherheitslösungen. Sowie Sicherheits-Konfiguration zur Deployment Zeit. Es sollen folgende Ziele erreicht werden:
@@ -318,12 +313,6 @@ Authentication ist Aufgabe des EJB-Containers und muss nicht implementiert werde
 Was ist aber, wenn wir keinen Web-Tier dazwischen haben und ein Client sich direkt gegen einen EJB-Container authentifizieren soll? Dafür könnte man ein JAAS-Login machen oder besser einen Client-Container verwenden, welcher aber herstellerspezifisch ist (best practice). Dabei muss der Client-Container die User Credentials ermitteln und den Benutzer gegen den EJB Server authentifizieren. Der Client-Container wrappt die den EJB-Client und wird zum Deployment-Zeitpunkt instanziert.
 
 \emph{P.S: EIS heisst Enterprise Information Layer. Und wird bei Zeichnungen oft nach dem EJB-Tier dargestellt.} 
-
-
-
-
-
-
 
 \section{Kontrollfragen}
 
