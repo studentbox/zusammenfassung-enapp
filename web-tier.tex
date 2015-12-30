@@ -65,6 +65,7 @@ Im Gegensatz zum EJB-Container ist man im Servlet-Container selbst verantwortlic
 Das Session Management kann im Web Tier über Session Cookies oder über eine Session ID realisiert werden. Man sollte die Session ID verwenden, weil diese vom Container verwaltet wird und nur die ID im Cookie gespeichert (Es ist auch möglich ID an URL anzuhängen aber lass das bitte sein) wird. Der Entwickler braucht sich nicht mehr um das Session-Management kümmern.
 
 \subsection{Scopes}
+\label{sec:scope}
 
 Eine Bean muss einen gewissen Zustand halten während ein Anwender mit der Applikation interagiert. Der Zustand wird über Scopes definiert. Es gibt folgende Scopes, welche mit Annotations markiert werden können:
 \begin{description}
