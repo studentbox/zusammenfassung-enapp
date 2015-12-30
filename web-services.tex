@@ -1,6 +1,6 @@
 \chapter{Web Services}
 
-Die Java EE Web Services (JAX-WS) nutzen das SOAP-Protokoll um mit entfernten Diensten zu kommunizieren. Allerdings ist ein SOAP-Webservice oft ein Overkill und eine einfache RMI- oder REST-Schnittstelle tut es auch. Eine SOAP-Architektur besteht aus einem Client, einem Server und einem UDDI (Universal Description, Discovery and Integration). Der Server definiert seine Services mit der WSDL-Sprache (Web Service Description Language) und teilt diese Information dem UDDI mit. Ein Client findet seine Services über den UDDI und fragt dann den Server direkt an. Der UDDI hat sich nicht wie erwünscht durchgesetzt. Listing \ref{lst:soap-struktur} zeigt einen die Struktur einer SOAP-Nachricht (Envelope, Header, Body).
+Die Java EE Web Services (JAX-WS) nutzen das SOAP-Protokoll um mit entfernten Diensten zu kommunizieren. Allerdings ist ein SOAP-Webservice oft ein Overkill und eine einfache RMI- oder REST-Schnittstelle tut es auch. Eine SOAP-Architektur besteht aus einem Client, einem Server und einem UDDI (Universal Description, Discovery and Integration). Der Server definiert seine Services mit der WSDL-Sprache (Web Service Description Language) und teilt diese Information dem UDDI mit \emph{(publish)}. Ein Client findet seine Services \emph{(find)} über den UDDI und fragt dann den Server direkt an. Der UDDI hat sich nicht wie erwünscht durchgesetzt. Listing \ref{lst:soap-struktur} zeigt einen die Struktur einer SOAP-Nachricht (Envelope = Header + Body). SOAP ist mittlerweile kein Akronym mehr. In Java wird dafür Client- sowie Serverseitig die JAX-WS Runtime eingesetzt (WS-Toolkit).
 
 \begin{lstlisting}[language=XML, caption=SOAP Struktur, label=lst:soap-struktur]
 <soap-env:Envelope xmlns:soap-env="http://schemas/xmlsoap.org/soap/envelope/">
@@ -13,7 +13,7 @@ Die Java EE Web Services (JAX-WS) nutzen das SOAP-Protokoll um mit entfernten Di
 </soap-env:Envelope>
 \end{lstlisting}
 
-Listing \ref{lst:soap-anfrage-antwort} schickt eine Anfrage (HTTP POST) für eine Liste von Teilen an die URL \verb|http://www.parts-depot.com/soap| und erhält eine entsprechende Antwort. Der Inhalt des Body ist nicht vom SOAP Standard festgelegt und kann vom Entwickler frei bestimmt werden. In der Antwort werden absichtlich keine Links verwendet (wie in REST) weil alle SOAP-Anfragen an die gleiche URL gehen.
+Listing \ref{lst:soap-anfrage-antwort} schickt eine Anfrage (HTTP POST) für eine Liste von Teilen an die URL \verb|http://www.parts-depot.com/soap| und erhält eine entsprechende Antwort. Der Inhalt des Body ist nicht vom SOAP Standard festgelegt und kann vom Entwickler frei bestimmt werden. In der Antwort werden absichtlich keine Links verwendet (wie in REST) weil alle SOAP-Anfragen an die gleiche URL gehen. Man muss nicht die gleiche URL für alle Anfragen verwenden, doch ist es eine Best Practice. Einen einzelnen Punkt, welche dann intern weiterleitet - message-router.
 
 \begin{lstlisting}[language=XML, caption=SOAP Anfrage/Antwort, label=lst:soap-anfrage-antwort]
 <!-- Anfrage -->
