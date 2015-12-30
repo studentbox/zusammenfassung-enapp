@@ -1,5 +1,5 @@
 \chapter{Context and Dependency Injection}
-
+ 
 \section{Inversion of Control}
 
 Inversion of Control (IoC) ist ein Paradigma das in der objektorientierten Programmierung verwendet wird.  Oft wird in diesem Zusammenhang das Hollywood-Prinzip (\emph{Don't call us, we'll call you}) verwendet, weil diesen Satz oft Schauspielamateure zu hören kriegen. In der klassischen Programmierung ruft der selbst programmierte (oder spezifische) Code den wiederverwendbaren Code auf (z.B. eine Funktion in einem Framework). Bei IoC wird dieser Vorgang umgekehrt. Das Framework (z.B. CDI) ruft den eignen Code auf und befreit den Programmierer dadurch von der Initialisierung der ganzen Komponenten (Hast du jemals eine \verb|main()|-Methode in Java EE gesehen?). Dadurch kann das Programm besser modularisiert und erweitert (keine Seiteneffekte) werden. Es gibt folgende Pattern um das IoC Paradigma umzusetzen:
@@ -24,15 +24,15 @@ Wie man sieht ist IoC ein sehr breit gefächerter Begriff. Abbildung \ref{fig:se
 CDI besteht grundsätzlich aus folgenden zwei Funktionen:
 \begin{description}
 	\item[Context:] Komponenten werden an einen definierte aber erweiterbaren Life Cycle gebunden.
-	\item[Dependency Injection:] Komponenten können typensicher in andere injeted werden. Dabei kann beim Deployment entschieden werden, welche Implementation für ein Interface verwendet werden soll.
+	\item[Dependency Injection:] Komponenten können typensicher in andere injected werden. Dabei kann beim Deployment entschieden werden, welche Implementation für ein Interface verwendet werden soll.
 \end{description}
 Zusätzlich zu den oben aufgeführten Basis-Funktionen bietet es noch folgende an:
 \begin{itemize}
-	\item Mit Interceptoren können Querschnittfunktionen (z.B. Logging) einfach implementiert werden. Mit CDI lässt sich ein Interceptor typensicher mit der entsprechenden Komponente verbinden.
+	\item Mit Interceptoren können Querschnittfunktionen (z.B. Logging) einfach implementiert werden. Mit CDI lässt sich ein Interceptor typensicher (\textbf{strong typing}) mit der entsprechenden Komponente verbinden.
 	\item Objekte können über Events interagieren
 	\item Über ein Service Provider Interface (SPI) können externe Frameworks sauber in Java EE integriert werden.
 \end{itemize}
-All diese Funktionen dienen einer losen Kopplung zwischen Komponenten. Konkret wird die Implementation von der Schnittelle einer Komponente getrennt. Dadurch müssen folgende Fragen nicht mehr gestellt werden:
+All diese Funktionen dienen einer \textbf{losen Kopplung} zwischen Komponenten. Konkret wird die Implementation von der Schnittelle einer Komponente getrennt. Dadurch müssen folgende Fragen nicht mehr gestellt werden:
 \begin{itemize}
 	\item Wo soll ich die Referenz aufbewahren wenn ich es momentan nicht verwende?
 	\item Gibt es eine alternative Implementationsmöglichkeit, so dass die Implementation vom Deployment abhängig ist?
