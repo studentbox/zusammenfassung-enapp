@@ -37,11 +37,11 @@ Folgende Gründe sprechen für Servlets:
 	\item Ideal für kleine Applikationen (Servlets only)
 \end{itemize}
 
-Ein Nachteil von Servlets ist die langsame Entwicklung mit Servlets, weil die Applikation bei jeder Änderung neu kompiliert und deployt werden muss. Zudem ist HTML-Wissen (oder HTTP?) notwendig. Abbildung \ref{fig:servlet-aufruf} zeigt eine Beispiel-Anfrage an ein Servlet. Der Server identifiziert das Servlet gemäss der URL (web.xml) und delegiert die Anfrage zum Servlet. Danach führt das Servlet seine Arbeit (z.B. EJB-Aufruf) aus und produziert eine Antwort (formatierte HTML-Seite). Der Server sendet die Antwort zum Client zurück.
+Ein Nachteil von Servlets ist die langsame Entwicklung, weil die Applikation bei jeder Änderung neu kompiliert und deployt werden muss. Zudem ist HTML-Wissen (oder HTTP?) notwendig. Abbildung \ref{fig:servlet-aufruf} zeigt eine Beispiel-Anfrage an ein Servlet. Der Server identifiziert das Servlet gemäss der URL (web.xml) und delegiert die Anfrage zum Servlet. Danach führt das Servlet seine Arbeit (z.B. EJB-Aufruf) aus und produziert eine Antwort (formatierte HTML-Seite). Der Server sendet die Antwort zum Client zurück.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{fig/servlet-aufruf}
+\includegraphics[width=0.5\linewidth]{fig/servlet-aufruf}
 \caption{Servlet Aufruf}
 \label{fig:servlet-aufruf}
 \end{figure}
@@ -52,7 +52,7 @@ Abbildung \ref{fig:servlet-life-cycle} zeigt den Life Cycle eines Servlets. Die 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\linewidth]{fig/servlet-life-cycle}
+\includegraphics[width=0.4\linewidth]{fig/servlet-life-cycle}
 \caption{Servlet Life Cycle}
 \label{fig:servlet-life-cycle}
 \end{figure}

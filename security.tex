@@ -218,6 +218,8 @@ Mit deklarativer Security kann der Zugriff auf Beans und Methoden reguliert werd
 	\item Zum Schluss wird das Mapping der Gruppen zu den deklarierten Rollen im herstellerspezifischen Deployment Deskriptor definiert.
 \end{enumerate}
 
+\newpage
+
 Listing \ref{lst:deklarative-security} zeigt wie deklarative Security im EJB-Tier umgesetzt wird. Es wird die Möglichkeit mit XML und mit Annotationen gezeigt.
 
 \begin{lstlisting}[caption=Deklarative Security im EJB-Tier, label=lst:deklarative-security]
@@ -265,6 +267,8 @@ public String getSalary(String name) {
 \end{lstlisting}
 
 Annotationen sind gut geeignet für einfachere Applikationen - übersichtlich und direkt im Code sichtbar. Für umfangreichere Applikation ist die Verwendung der Deployment-Deskriptoren besser geeignet. Die Konfiguration ist ersichtlich ohne, dass im Code nachgeschaut werden muss \emph{(Anmerkung Autor: Ich bin nicht dieser Meinung)}. Listing \ref{lst:programmatische-security} zeigt wie die programmatische Security im EJB-Tier umgesetzt wird.
+
+\newpage
 
 \begin{lstlisting}[caption=Programmatische Security im EJB-Tier, label=lst:programmatische-security]
 // Schritt 1: Programmieren
@@ -368,6 +372,8 @@ Es gibt die deklarative und die programmatische Variante. Bei der deklarativen V
 	<role-name>administrator</role-name>
 </security-role>
 \end{lstlisting}
+
+\newpage
 
 \subsection{Java EE Security: Schützen Sie die EJB-Methode readKonto() mit den zugriffsberechtigten Rollen	'kundenberater' und 'administrator' einmal mittels deklarativen Eintrag im Deployment-Descriptor und als Annotation im Code}
 

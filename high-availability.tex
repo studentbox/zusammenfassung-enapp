@@ -18,6 +18,8 @@ Dies ist ein Cluster-Node Endpoint. Schlussendlich nicht mehr oder weniger als e
 
 Der Protokoll-Stack kann beliebig zusammengestellt werden. Zudem gibt es built-in Protokolle wie: Network communication, membership discovery, failure detection, lossless and ordered transmission, network split handling and subsequent merging, notification when nodes join or leave the cluster, flow control, fragmentation, compression, encryption, authentication. Der gesamte Stack wird typischerweise über XML-Dateien konfiguriert. Kann aber auch programmatisch erfolgen. Listing \ref{lst:xml-protokol-stack} zeigt ein Beispiel für eine XML-Konfiguration eines Stacks.
 	
+\newpage
+	
 \begin{lstlisting}[language=XML, caption=XML für Protokoll Stack, label=lst:xml-protokol-stack]
 <config xmlns="urn:org:jgroups" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:org:jgroups	http://www.jgroups.org/schema/jgroups.xsd">
 <UDP mcast_port="${jgroups.udp.mcast_port:45588}" />
@@ -236,4 +238,4 @@ public interface Counter {
 Task können auf mehreren Nodes verteilt werden. Damit ein einzelner Node nicht überlastet wird. Dabei wird beispielsweise auch folgendes Szenario unterstützt: Wenn ein Task crashed, muss dieser von einem anderen Node übernommen werden. Es darf keinen \emph{single point of failure} geben.
 
 \subsection{Infinispan}
-\emph{Infinispan is a distributed in-memory key/value data store with optional schema, available under the Apache License 2.0. It can be used both as an embedded Java library and as a language-independent service accessed remotely over a variety of protocols (HotRod, REST, Memcached and WebSockets). It offers advanced functionality such as transactions, events, querying and distributed processing.}. Gemäss Maven-Abhängigkeiten benutzt Infinispan intern JGroups. 
+Infinispan is a distributed in-memory key/value data store with optional schema, available under the Apache License 2.0. It can be used both as an embedded Java library and as a language-independent service accessed remotely over a variety of protocols (HotRod, REST, Memcached and WebSockets). It offers advanced functionality such as transactions, events, querying and distributed processing. Gemäss Maven-Abhängigkeiten benutzt Infinispan intern JGroups. 

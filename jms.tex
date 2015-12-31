@@ -21,10 +21,12 @@ Daraus ist zu entnehmen, dass es zwei \emph{Destinationen} gibt: Queue und Topic
 
 \begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{fig/jms-overview}
+\includegraphics[width=0.43\linewidth]{fig/jms-overview}
 \caption{JMS Überblick}
 \label{fig:jms-overview}
 \end{figure}
+
+
 
 \begin{description}
 	\item[Administriete Objekte] Dazu gehören die Connection Factories und die Destinations. Beide werden über den Namensdienst (JNDI) angefordert. Die Connection Factory ist für das Erstellen einer Verbindung zuständig un die Destination stellt die Queue zur Verfügung.
@@ -64,6 +66,8 @@ Eine Message besteht aus einem Header, den Properties und dem Body. Der JMS Head
 	\item[ByteMessage:] Uninterpretierte Bytes (binäre Daten) werden verschickt
 	\item[MapMessage:] Schlüssel-Werte-Paare werden versendet
 \end{description}
+
+\newpage
 
 Um sicherzustellen das eine Message auch ihr Ziel erreicht gibt es in JMS folgende Mechanismen:
 

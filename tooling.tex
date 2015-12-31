@@ -51,6 +51,8 @@ Beispielsweise hat der Apache Tomcat  standardmässig JPA nicht dabei (muss selb
 \section{DB2}
 DB2 ist von IBM und im Unternehmensumfeld stark verbreitet. Auf einem Server können mehrere DB2 Instanzen betrieben werden. Jede Instanz kann mehrere Datenbanken haben. Nun folgen die Schemas und erst dann die Tabellen. Wir haben im ENAPP-Modul eine Instanz betrieben, welche die Datenbank ENAPP beinhaltet und haben dann Schemas wie SBBRSS, EATME oder eben WEBSHOP erzeugt. (\emph{In MySQL, physically, a schema is synonymous with a database}). Listing \ref{lst:db2-connection} zeigt wie eine Verbindung zur DB2 Datenbank aufgebaut werden kann.
 
+\newpage
+
 \begin{lstlisting}[caption=Verbindung zu DB2 herstellen, label=lst:db2-connection]
 student@linux-wm6v:~> su - db2inst
 Password:
