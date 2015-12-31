@@ -26,7 +26,7 @@ Es gibt grundsätzlich drei Typen von EJBs:
 			\label{fig:ejb-lifecycle-stateless-bean}
 			\end{figure}
 			
-			Die instanziierten Bean stehen in einem Bean Pool zur Verfügung (bean pooling). Statless Bean bedienen mehrere Clients und sind so einfacher in der Handhabung und können wiederverwendet werden (scalibility). Container müssen keine Beans dieser Art von RAM auf die Festplatte auslagern (performance).
+			Die instanziierten Bean stehen in einem Bean Pool zur Verfügung (bean pooling). Stateless Bean bedienen mehrere Clients und sind so einfacher in der Handhabung und können wiederverwendet werden (scalibility). Container müssen keine Beans dieser Art von RAM auf die Festplatte auslagern (performance).
 			
 			\item[Statefull Session Bean:] Bleibt dem Client der sie angefordert hat solange zugeordnet, bis dieser sie wieder freigibt. Eine Instanz einer Bean ist also einem Client exklusiv zugeordnet. Dies ermöglicht, dass ein Zustand innerhalb des Beans für den Client gespeichert werden kann. Die Klasse muss mit \verb|@Statefull| annotiert werden.
 			
@@ -37,10 +37,10 @@ Es gibt grundsätzlich drei Typen von EJBs:
 			\label{fig:ejb-lifecycle-statefull-bean}
 			\end{figure}
 			
-			\item[Singleton Session Bean:] Pro JVM wo der Applikationsserver läuft gibt es maximal eine Instanz. Diese kann allerdings von mehreren Clients gleichzeitig verwendet werden. Dieser Typ eignet sich für die applikationsweit gültige Informationen.Die Klasse muss mit \verb|@Singleton| annotiert werden.
+			\item[Singleton Session Bean:] Pro JVM wo der Applikationsserver läuft gibt es maximal eine Instanz. Diese kann allerdings von mehreren Clients gleichzeitig verwendet werden. Dieser Typ eignet sich für die applikationsweit gültigen Informationen. Die Klasse muss mit \verb|@Singleton| annotiert werden.
 		\end{description}
 	
-	\item[Message Driven Bean:] Eine Message-Driven Bean (MDB) wird für die Implementierung asynchroner Kommunikation in Java-EE-basierten Systemen eingesetzt. Diese kann ausschliesslich auf indirektem Weg über Nachrichten angesprochen werden. Kein Client kann direkt Methoden einer MDB aufrufen. Eine MDB nimmt Nachrichten von einem \emph{Message-Broker} entgegen und stellt somit einen Nachrichtenendpunkt dar. Message Driven Beans sind immer \emph{stateless}. Grundsätzlich kann man sagen, dass MDBs eher technische als fachliche Komponente darstellen. Sie delegieren die Aufgaben dann oft an die entsprechenden EJBs. Muss mit \verb|@MessageDriven| annotiert werden.
+	\item[Message Driven Bean:] Eine Message Driven Bean (MDB) wird für die Implementierung asynchroner Kommunikation in Java-EE-basierten Systemen eingesetzt. Diese kann ausschliesslich auf indirektem Weg über Nachrichten angesprochen werden. Kein Client kann direkt Methoden einer MDB aufrufen. Eine MDB nimmt Nachrichten von einem \emph{Message-Broker} entgegen und stellt somit einen Nachrichtenendpunkt dar. Message Driven Beans sind immer \emph{stateless}. Grundsätzlich kann man sagen, dass MDBs eher technische als fachliche Komponente darstellen. Sie delegieren die Aufgaben dann oft an die entsprechenden EJBs. Muss mit \verb|@MessageDriven| annotiert werden.
 	
 	\item[Entity Beans:] Sind seit EJB 3.x nicht mehr relevant. Diese repräsentierten Daten, welche vollständig vom Container verwaltet wurden. Heute verwenden wir das Java Persistence API (JPA) - siehe unten Persistent Entity.
 		
@@ -63,10 +63,10 @@ Es gibt drei Aufrufmodelle.
 Beide machen technisch das genau gleiche. Aber die Dependency Injection ist um einiges eleganter und koppelt lose. Die Dinge werden injiziert und die Klasse selber muss sich nicht darum kümmern mittels eine JNDI Lookup mit try/catch Blöcken usw.
 
 \section{Methoden-Typen in EJBs}
-Schlussendlich sind die EJBs nichts anderes als POJOs. In der Praxis werden Business-Methoden in einem Interface definiert, welches das Bean implementiert. Zudem gibt es sogenannte Lebenszyklus oder auch Callback-Methoden. Diese werden vom Container aufgerufen \emph{Don't call us - we'll call you. Hollyword-Prinzip.}. Es gibt beispielsweise \verb|@PostConstruct| oder \verb|@PreDestroy|. Bei Statefull-Session Beans auch \verb|@PostActivate| oder \verb|@PostPrePassivate|. Auch die persisten Entities haben Callback Methoden, die werden aber meiner Meinung nach nicht vom Container aufgerufen sondern vom \verb|EntityManager|.
+Schlussendlich sind die EJBs nichts anderes als POJOs. In der Praxis werden Business-Methoden in einem Interface definiert, welches das Bean implementiert. Zudem gibt es sogenannte Lebenszyklus oder auch Callback-Methoden. Diese werden vom Container aufgerufen (Inversion of Control siehe Abschnitt \ref{sec:ioc}). Es gibt beispielsweise \verb|@PostConstruct| oder \verb|@PreDestroy|. Bei Statefull-Session Beans auch \verb|@PostActivate| oder \verb|@PostPrePassivate|. Auch die persisten Entities haben Callback Methoden, die werden aber meiner Meinung nach nicht vom Container aufgerufen sondern vom \verb|EntityManager|.
 
 \section{Kontexte}
-Das Interface \verb|javax.ejb.EJBContext| stellt die Informationen, welche vom Container verwaltet werdern zur Verfügung. Wichtige Methoden darin: \verb|getCallerPrincipal()|, \verb|isCallerInRole()|, \verb|lookup|. Das Interface wird von drei weiteren Interfaces erweitert, welche spezifisch für die Bean-Typen sind:
+Das Interface \verb|javax.ejb.EJBContext| stellt die Informationen, welche vom Container verwaltet werdern zur Verfügung. Wichtige Methoden darin: \verb|getCallerPrincipal()|, \verb|isCallerInRole()|, \verb|lookup()|. Das Interface wird von drei weiteren Interfaces erweitert, welche spezifisch für die Bean-Typen sind:
 \begin{description}
 	\item[javax.ejb.SessionContext:] Definiert den Kontext für Session Beans. Beinhaltet einige weitere Methoden.
 	
@@ -76,7 +76,7 @@ Das Interface \verb|javax.ejb.EJBContext| stellt die Informationen, welche vom C
 \end{description}
 
 \section{EJB-Container}
-Der EJB-Container ist ein Element innerhalb des Java-EE-Applikationsserver. Er beherbergt Instanzen von EJB-Komponenten und ermöglicht und überwacht deren Ausführung. Die dazu benötigten Funktionen stellt er selber zur Verfügung oder fordert diese vom App-Server an.
+Der EJB-Container ist ein Element innerhalb des Java-EE-Applikationsserver. Er beherbergt Instanzen von EJB-Komponenten und ermöglicht bzw. überwacht deren Ausführung. Die dazu benötigten Funktionen stellt er selber zur Verfügung oder fordert diese vom App-Server an.
 
 \begin{itemize}
 	\item Früher hat beispielsweise der EJB-Container sich auch noch um das Persistenzmanagement gekümmert mit den Entity Beans, da wird aber heute mittels JPA gelöst.
@@ -101,13 +101,13 @@ Im Unix kennn wir doch alle das Programm cron. Ein anderes Scheduling System bie
 Der EJB Timer Service ist nur für Stateless Session Beans, Singleton Session Beans und Message-Driven Beans gedacht. In Statefull kann dieser nicht verwendet werden. Da diese in der Regel eher einen kurzen Zeitraum einer Client-Session einen Zustand besitzen und Timer Service aber primär für lange laufende, zeitgesteuerte Aufgaben konzipiert ist.
 
 \section{Asynchroner Bean Call}
-Annotiere die Methode mit \verb|@Asynchronous| und der Methoden-Aufruf kehrt direkt zurück.
+Annotiere die Methode mit \verb|@Asynchronous| und der Methoden-Aufruf wird in einem eigenen Thread ausgeführt und kehrt direkt zurück.
 
 \section{Proxy Modell}
-Der Container gibt beim Aufruf einer Session Bean an den Client nur immer einen Stellvertretter (Proxy) zurück. Der Client arbeitet mit dem Stub und auf dem Server ist der Skeleton.
+Der Container gibt beim Aufruf einer Session Bean an den Client nur immer einen Stellvertreter (Proxy) zurück. Der Client arbeitet mit dem Stub und auf dem Server ist der Skeleton.
 
 \section{Client Zugriff auf Beans}
-Die Typen eines Clients sind local, remote oder Web Service. Wobei der local Client in der gleichen JVM laufen muss, kann eine Web-Komponente oder ein anderes EJB sein. Vom lokalen Client ist die Lokalität des Beans auf das er zugreift, nicht transparent. Ausserhalb der JVM muss immer über das Remote-Interface zugegriffen werden. Welches soll ich wählen - falls unsicher wähle remote (bin nicht dieser Meinung).
+Die Typen eines Clients sind local, remote oder Web Service. Wobei der local Client in der gleichen JVM laufen muss oder auch eine Web-Komponente oder ein anderes EJB sein kann. Vom lokalen Client ist die Lokalität des Beans auf das er zugreift, nicht transparent. Ausserhalb der JVM muss immer über das Remote-Interface zugegriffen werden. Welches soll ich wählen - falls unsicher wähle remote (bin nicht dieser Meinung).
 
 \newpage
 \section{Naming Convetions}
@@ -148,7 +148,7 @@ Wir kennen noch die veralteten Entity Beans, welche durch die persistent Entity 
 Der Zugriff kann wie folgt erfolgen: Remote, Locale oder WebService.
 
 \subsection{Brauchen alle Beans ein Interface?}
-Nein, seit Java EE 6 können auf Beans via der impliziten Local Interface View zugegriefen werden.
+Nein, seit Java EE 6 können auf Beans via der impliziten Local Interface View zugegriffen werden.
 
 \subsection{Kann ein Rich-Client auf ein Bean mit „local“ definiertem Interface zugreifen?}
 Rich-Client: Java Applikation die lokal auf einem Notebok, z.B. Swing-Application
@@ -162,7 +162,7 @@ Damit sie geordnet und schneller gefunden werden können.
 @Stateless: so viele wie nötig
 
 \subsection{Wann wird eine Annotation ignoriert?}
-Wenn es im XML-File übersteuert wird. (XML hat die höhere Priorität!)
+Wenn sie im XML-File überschrieben wird. (XML hat die höhere Priorität!)
 
 \subsection{Wenn sie zur Laufzeit etwas vom Container wissen/verwenden möchten, wie machen Sie das?}
 Ich greife auf die Kontexte zu: EJB Context, Session Context, Message Driven Context.

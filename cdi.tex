@@ -1,6 +1,7 @@
 \chapter{Context and Dependency Injection}
  
 \section{Inversion of Control}
+\label{sec:ioc}
 
 Inversion of Control (IoC) ist ein Paradigma das in der objektorientierten Programmierung verwendet wird.  Oft wird in diesem Zusammenhang das Hollywood-Prinzip (\emph{Don't call us, we'll call you}) verwendet, weil diesen Satz oft Schauspielamateure zu hören kriegen. In der klassischen Programmierung ruft der selbst programmierte (oder spezifische) Code den wiederverwendbaren Code auf (z.B. eine Funktion in einem Framework). Bei IoC wird dieser Vorgang umgekehrt. Das Framework (z.B. CDI) ruft den eignen Code auf und befreit den Programmierer dadurch von der Initialisierung der ganzen Komponenten (Hast du jemals eine \verb|main()|-Methode in Java EE gesehen?). Dadurch kann das Programm besser modularisiert und erweitert (keine Seiteneffekte) werden. Es gibt folgende Pattern um das IoC Paradigma umzusetzen:
 \begin{itemize}
