@@ -7,7 +7,7 @@ Ein \textbf{Namensdienst} bildet einen (menschenfreundlichen) Namen zu einem Obj
 Der \textbf{Verzeichnisdienst} kann im Gegensatz zu einem reinen Namensdienst etwas mehr. Es werden nicht nur Bindings erstellt, sondern es können auch Verzeichnisdienst spezifische Attribute zum Objekt abgelegt werden. Auf Basis diesen Attributen kann im Verzeichnis gesucht werden. Typischer Verzeichnisdienst: LDAP.
 
 \section{JNDI}
-Das Java Naming und Directory Interface (JNDI) ist ein Java-API für Namens- und Verzeichnisdienste. Über die Schnittstelle können Daten und Objektreferenzen anhand eines Namens abgelegt und von Nutzern des API wieder abgerufen werden. Dieses API ist ein sogenanntes Server Provider Interface (SPI), damit können Herstellern eigene Lösungen bauen. Über JNDI werden die meisten bekannten Dienste unterstützt, wie: LDAP, DNS, NIS (Network Information Service), CORBA (Common Object Request Broker Architecture), Dateisystem, RMI. Wir dürfen froh sein, dass wir mit EJB 3.x arbeiten. Davor mussten alle Referenzen auf Ressourcen im Deployment Deskriptor verwaltet werden und anschliessend mittels JNDI-Lookups in den EJBs programmiert werden. Es gab weder Annotationen noch die mächtigen Mechanismen der Dependency Injection.
+Das Java Naming und Directory Interface (JNDI) ist ein Java-API für Namens- und Verzeichnisdienste. Über die Schnittstelle können Daten- und Objektreferenzen anhand eines Namens abgelegt und von Nutzern des API wieder abgerufen werden. Dieses API ist ein sogenanntes Server Provider Interface (SPI), damit können Hersteller eigene Lösungen bauen. Über JNDI werden die meisten bekannten Dienste unterstützt, wie: LDAP, DNS, NIS (Network Information Service), CORBA (Common Object Request Broker Architecture), Dateisystem, RMI. Wir dürfen froh sein, dass wir mit EJB 3.x arbeiten. Davor mussten alle Referenzen auf Ressourcen im Deployment Deskriptor verwaltet werden und anschliessend mittels JNDI-Lookups in den EJBs programmiert werden. Es gab weder Annotationen noch die mächtigen Mechanismen der Dependency Injection.
 
 \subsection{API}
 Das API beinhaltet folgendes:
@@ -109,7 +109,7 @@ add: mail
 \end{lstlisting}
 
 \subsection{Geschichte}
-LDAP hat seinen Ursprung an der Universtiät von Michigan (UMich) und wurde erstmals in einem RFC vorgeschlagen. LDAP soll eine alternative zum DAP darstellen, welches X.500 vollständig implementierte mit einem ganzen OSI/ISO Stack. LDAP verwendet dabei nur einen TCP/IP Stack. Die ITU (Internationel Telecommunication Union) definiert auch Standards wie ISO. Bekannt sind die X-Spezifikationen wie X.501 oder X.525.
+LDAP hat seinen Ursprung an der Universtiät von Michigan (UMich) und wurde erstmals in einem RFC vorgeschlagen. LDAP soll eine alternative zum DAP darstellen, welches X.500 (beschreibt Aufbau eines Verzeichnisdienstes) vollständig implementierte mit einem ganzen OSI/ISO Stack. LDAP verwendet dabei nur einen TCP/IP Stack. Die ITU (Internationel Telecommunication Union) definiert auch Standards wie ISO. Bekannt sind die X-Spezifikationen wie X.501 oder X.525.
 
 \subsection{Unterschiede zur DB}
 \begin{itemize}
@@ -132,7 +132,7 @@ LDAP hat seinen Ursprung an der Universtiät von Michigan (UMich) und wurde erst
 \end{figure}
 
 \subsubsection{Namens-Modell}
-Die Datenstruktur ist ein hierarchischer Baum mit Wurzeln, Zweigen und Blättern. Dieser Baum wird auch Directory Information Tree (DIT) genannt. Die Wurzel (root, suffix) ist das oberste Datenobjekt, unter ihm verzeiwegen sich die höheren Strukturen. Oft wird der Unternehmensnamen als Wurzerl definiert \emph{o=css}. Personen können dann beispielsweise darunter angelegt werden \emph{ou=people,o=css} oder Gruppen \emph{ou=groups,o=css}. Ein einzelnes Objekt wird durch den Distinguished Name (DN) eindeutig identifiziert \emph{uid=tdsuter,ou=people,o=css}. Dieser setzt sich aus mehreren Relative Distinguished Names (RDN) zusammen. Eine anderen Namen für DN ist der canonical Namen, wobei der Pfad mit Slashes getrennt wird: \emph{css/people/tdsuter}. Oder an der HSLU: cn=Bruno Joho, ou=People, dc=el, dc=hslu, dc=ch. Einige bekannte Abkürzungen:
+Die Datenstruktur ist ein hierarchischer Baum mit Wurzeln, Zweigen und Blättern. Dieser Baum wird auch Directory Information Tree (DIT) genannt. Die Wurzel (root, suffix) ist das oberste Datenobjekt, unter ihm verzweigen sich die höheren Strukturen. Oft wird der Unternehmensnamen als Wurzerl definiert \emph{o=css}. Personen können dann beispielsweise darunter angelegt werden \emph{ou=people,o=css} oder Gruppen \emph{ou=groups,o=css}. Ein einzelnes Objekt wird durch den Distinguished Name (DN) eindeutig identifiziert \emph{uid=tdsuter,ou=people,o=css}. Dieser setzt sich aus mehreren Relative Distinguished Names (RDN) zusammen. Eine anderen Namen für DN ist der canonical Namen, wobei der Pfad mit Slashes getrennt wird: \emph{css/people/tdsuter}. Oder an der HSLU: cn=Bruno Joho, ou=People, dc=el, dc=hslu, dc=ch. Einige bekannte Abkürzungen:
 
 \begin{itemize}
 	\item cn = common name
@@ -171,7 +171,11 @@ Neben den vier aufgelisteten Modellen, gibt es natürlich nun einfach noch ein f
 SPI - Service Provider Interface. Das benötige ich, wenn ich den Service implementieren will. Wenn ich den Service verwenden will, benutze ich das API. Ein LDAP Server bietet ein SPI an, genauso wie ein API.
 
 \subsection{Was ist LDAP? - MEP}
-Lightweight Directory Access Protocol. Es ist ein Zugriffsprotokoll \& ein Directory Standard, da könnte man sagen, ja es ist mehr wie nur ein Protokoll. Es beinhaltet 4 Modelle. Wie würden Sie bei einem LDAP Daten austauschen? Mittels dem LDIF Protokoll.
+Lightweight Directory Access Protocol. Es ist ein Zugriffsprotokoll \& ein Directory Standard, da könnte man sagen, ja es ist mehr wie nur ein Protokoll. Es beinhaltet 4 Modelle.
+
+\subsection{Wie würden Sie bei einem LDAP Daten austauschen?} 
+
+Mittels dem LDIF Protokoll.
 
 \subsection{Welche 2 Services stellt das JNDI zur Verfügung?}
 \begin{description}
@@ -180,10 +184,10 @@ Lightweight Directory Access Protocol. Es ist ein Zugriffsprotokoll \& ein Direc
 \end{description}
 
 \subsection{Was muss als allererstes erzeugt werden bei einer möglichen Verwendung eines Naming Services um ein Java Objekt zu registrieren?}
-Heute verwende ich Dependency Injection um an JNDI-Ressourcen zu gelangen. Das kann ich technisch mit Annotationen oder über den Deployment Deskriptor lösen. Trotzdem gibt es immer noch Fälle wo das ausprogrammiert werden muss. Falls ich das aber ausprogrammieren müsste, dann benötige ich den \textbf{Initial Context} (Wo finde ich was) sowie \textbf{Servername und Port}. Ich erzeuge mir also zuerst den Initial Context um danach eine Verbindung mit dem Verzeichnisdienst herzustellen. Für die Anfrage brauche ich natürlich noch den JNDI-Namen.
+Heute verwende ich Dependency Injection um an JNDI-Ressourcen zu gelangen. Das kann ich technisch mit Annotationen (\verb|@EJB|) oder über den Deployment Deskriptor lösen. Trotzdem gibt es immer noch Fälle wo das ausprogrammiert werden muss. Falls ich das aber ausprogrammieren müsste, dann benötige ich den \textbf{Initial Context} (Wo finde ich was) sowie \textbf{Servername und Port}. Ich erzeuge mir also zuerst den Initial Context um danach eine Verbindung mit dem Verzeichnisdienst herzustellen. Für die Anfrage brauche ich natürlich noch den JNDI-Namen.
 
 \subsection{Nennen Sie einige der Basismethoden mit denen Sie auf den Namensdienst zugreifen resp. navigieren?}
-Folgende Methoden sind relevant: Bind, Lookup, Search, List, Unbind, Rebind, Add, Remove, Change. Wobei Joho folgende drei gerne hört: Lookup, List, Bind - diese sind LDAP spezifisch. Man bindest sich an einen Server.
+Folgende Methoden sind relevant: Bind, Lookup, Search, List, Unbind, Rebind, Add, Remove, Change. Wobei Joho folgende drei gerne hört: Lookup, List, Bind - diese sind LDAP spezifisch. Man bindet sich an einen Server.
 
 \emph{Zusatzfrage: Wie wird denn im Gegensatz zu einer Datenbank eine LDAP Anfrage gemacht? - Eine Datenbank Anfrage macht man zuerst ein Open (wäre ein Bind), dann lassen sie diese offen (typischerweise im Applikationscontainer welche ein Pool von solchen Connections hat, weil diese teuer zu initialisieren sind, ganz im Gegensatz zum LDAP, der macht ein Bind und wenn er seine Antwort gekriegthat, gibt es ein unbind. Und dann wieder ein bind. Für jede Anfrage. Es wurde ja Entworfen für Telefonverzeichnisse, da wird sehr viel gelesen und nicht sehr viel geschrieben - ist leseoptimiert. Kann man nachlesen, wie viel mal schneller ein LDAP ist beim Lesen als eine Datenbank, dafür beim Schreiben naütrlich langsam.}
 
@@ -204,4 +208,4 @@ Setzt sich aus dem Namen der Knoten zusammen - Sequenz von mehreren RDN (Relativ
 LDAP macht Search mit bis zu 8 Parameter, z.B. das Basisobjekt, der Search Scope (Einschränkung der Suche, hat seine Geschichte im Telefonbuch), Size Limit, Time Limit, Attribute-only Parameter, Filter, List Attribute von den Returnwerte - man kann direkt beim Search angeben, ich will nur 100 Einträge. In der DB ist es das Select im LDAP der Search.
 
 \subsection{Was ist besonders an einer LDAP Anfrage, ganz im Gegensatz zu einer DB Anfrage?}
-LDAP unterscheidet sich wesentlich im Lese- / Schreib-Verhältnis zu einer Datenbank: Durch die standardisierte "baumartige" Struktur ist die Lesegeschwindigkeit (und nur diese!) wesentlich höher. Weiter kann die LDAP-Struktur nicht frei gewählt, sondern lediglich erweitert werden. LDAP ist zudem verteilbar und replizierbar. Die Verbindung wird nur für 1 Anfrage aufrecht erhalten, dann wird eine neue Verbindung gemacht. Man kann bestimmen wo im Verzeichnis die Suche beginnen soll. Bei der DB wird die Verbindung aufrechterhalten.
+LDAP unterscheidet sich wesentlich im Lese- / Schreib-Verhältnis zu einer Datenbank: Durch die standardisierte \textit{baumartige} Struktur ist die Lesegeschwindigkeit (und nur diese!) wesentlich höher. Weiter kann die LDAP-Struktur nicht frei gewählt, sondern lediglich erweitert werden. LDAP ist zudem verteilbar und replizierbar. Die Verbindung wird nur für 1 Anfrage aufrecht erhalten, dann wird eine neue Verbindung gemacht. Man kann bestimmen wo im Verzeichnis die Suche beginnen soll. Bei der DB wird die Verbindung aufrechterhalten.
