@@ -123,3 +123,72 @@ Coder coder;
 	</alternatives>
 </beans>
 \end{lstlisting}
+
+\section{Kontrollfragen}
+
+\subsection{Auf welchem Design Pattern basiert CDI?}
+CDI bedeutet Context Dependency Injection uns basiert auf dem Dependency Injection Pattern.
+
+\subsection{Nennen Sie eine Anwendung von CDI}
+\begin{itemize}
+	\item Task von seiner Implementation entkoppeln.
+	\item Fokussiert ein Modul zur Aufgabe wozu es entworfen wurde.
+	\item Befreit Module von Annahmen und bezieht sich stattdessen auf Verträge.
+	\item Verhindert Seiteneffekte, wenn Klassen ersetzt werden müssen.
+\end{itemize}
+
+\subsection{Zeichnen sie das IoC Design Pattern}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{fig/service-locator-di}
+	\caption{Service Locator / Dependency Injection}
+	\label{fig:service-locator-di}
+\end{figure}
+
+\subsection{Welche Services stellt CDI zur Verfuegung?}
+\begin{itemize}
+	\item verbesserter Lebenszyklus für stateful Objekte die an definierte Kontexte gebunden sind.
+	\item Typen sichere Dependency Injection
+	\item Objekt Interaktion via Event Notification Facillity
+	\item Ein verbesserter Ansatz um Interceptoren an Objekte zu binden. Verwendet wird ein neuer Interceptor, genannt Decorator um neuen Business Anforderungen zu genügen.
+	\item SPI um portierbare Extensions für den Kunden zu entwickeln
+\end{itemize}
+
+\subsection{Wie wird in der CDI Spezifikation ein „Bean“ definiert?}
+\begin{itemize}
+	\item Ein Objekt das an einen Life Cycle Kontext gebunden ist wird Bean genannt.
+	\item CDI beinhaltet Support für folgende Beans: managed Beans, EJB Session Beans. Managed und Session Beans können andere Beans injizieren.
+	\item Andere Objekte die keine Beans sind können auch Beans via CDI	injiziert bekommen. 
+\end{itemize}
+
+\subsection{Was bedeutet folgender Ausdruck im Zusammenhang mit CDI?}
+Der Ausdruck CDI bedeutet loose Kopplung und strong Typing.
+
+\subsection{Definieren sie die Anatomie eines Beans?}
+Vor JEE 6 gab es keine klare Definition. Nun gibt es eine allgemeingültige Definition in der 'managed Bean Spezifikation'.
+\begin{itemize}
+	\item ein (nicht leeres) Set von Bean Typen
+	\item ein (nicht leeres) Set von Qualifiers
+	\item ein Scope
+	\item Optional, ein Beam EL Name
+	\item Ein Set von Interceptor Bindings
+	\item Eine Bean Implementaion
+	\item kann eine Alternative* sein 
+\end{itemize}
+
+\subsection{Wie wird ein Bean typ definiert?}
+Beans erwerben normalerweise Referenzen zu anderen Beans via Dependency Injection. Jedes injizierte Attribut spezifiziert einen Contract der vom zu injizierenden Bean erfüllt werden muss. Der Vertrag dazu ist: Ein Bean Typ, zusammen mit einem Set von Qualifiers. \textbf{Ein Bean Typ ist eine user definierte Klasse; einem Typ der clientvisible ist. client-visible: Eine EJB session Bean Implementation ist nicht sichtbar für den Client, aber sein @Local Interface ist sichtbar.}
+
+\subsection{Welchen Scope können Beans haben?}
+@RequestScoped, @SessionScoped, @ApplicationScoped, @ConversationScoped oder einen eigen definierten Scope.
+
+\subsection{Was macht die Verwendung von Java CDI um einiges einfacher?}
+In Java gibt es Annotationen, welche von CDI verwendet werden.
+
+\subsection{Nennen sie ein paar solcher Annotationen und deren Verwendung!}
+\begin{itemize}
+	\item @Named('cart') - Definiert den Bean EL Namen.
+	\item @Alternative - Definition von Beans, welche Deployment spezifisch sind.	
+	\item @Inject - Bean injectet.
+	\item @Qualifier - Benutzer definierte Annotation.
+\end{itemize}
