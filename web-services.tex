@@ -13,7 +13,7 @@ Die Java EE Web Services (JAX-WS) nutzen das SOAP-Protokoll um mit entfernten Di
 </soap-env:Envelope>
 \end{lstlisting}
 
-Listing \ref{lst:soap-anfrage-antwort} schickt eine Anfrage (HTTP POST) für eine Liste von Teilen an die URL \verb|http://www.parts-depot.com/soap| und erhält eine entsprechende Antwort. Der Inhalt des Body ist nicht vom SOAP Standard festgelegt und kann vom Entwickler frei bestimmt werden. In der Antwort werden absichtlich keine Links verwendet (wie in REST) weil alle SOAP-Anfragen an die gleiche URL gehen. Man muss nicht die gleiche URL für alle Anfragen verwenden, doch ist es eine Best Practice. Einen einzelnen Punkt, welche dann intern weiterleitet - message-router.
+Listing \ref{lst:soap-anfrage-antwort} schickt eine Anfrage (HTTP POST) für eine Liste von Teilen an die URL \\ \verb|http://www.parts-depot.com/soap| und erhält eine entsprechende Antwort. Der Inhalt des Body ist nicht vom SOAP Standard festgelegt und kann vom Entwickler frei bestimmt werden. In der Antwort werden absichtlich keine Links verwendet (wie in REST) weil alle SOAP-Anfragen an die gleiche URL gehen. Man muss nicht die gleiche URL für alle Anfragen verwenden, doch ist es eine Best Practice. Eine Anfrage wird an eine zentrale URL gesendet und dann intern von einem Message Router weitergeleitet.
 
 \begin{lstlisting}[language=XML, caption=SOAP Anfrage/Antwort, label=lst:soap-anfrage-antwort]
 <!-- Anfrage -->

@@ -71,7 +71,9 @@ REST Services halten sich an gewisse Standards (z.B. URL, HTTP-Methoden), dadurc
 Die drei fundamentalen Aspekte von REST Design Pattern sind: Einfache Operationen, URLs und Ressourcen.
 
 \section{Safe methods vs. idempotent}
-Safe Methods modifzieren eine Ressource nicht. GET, HEAD oder OPTIONS dürfen den Status der Ressource nicht verändern. Bzw. sie dürfen natürlich Dinge verändern auf dem Server wie beispielsweise einen Counter, aber nicht die Ressource in der Repräsentation. Dabei geht es um einen Aufruf. Idempotent Methoden sind Methoden, welche x-mal aufgerufen werden kann ohne, dass etwas anderes zurückkommt. Das bezieht sich auch wieder nur auf das Resultat und nicht die Ressource selber. Dabei geht es um die Anzahl Aufrufe.
+Safe Methods modifzieren eine Ressource nicht. GET, HEAD oder OPTIONS dürfen den Status der Ressource nicht verändern. Sie dürfen natürlich Dinge verändern auf dem Server wie beispielsweise einen Counter, aber nicht die Ressource in der Repräsentation. Dabei geht es um einen Aufruf. 
+
+Idempotent Methoden sind Methoden, welche x-mal aufgerufen werden kann ohne, dass etwas anderes zurückkommt. Das bezieht sich auch wieder nur auf das Resultat und nicht die Ressource selber. Dabei geht es um die Anzahl Aufrufe.
 
 \begin{figure}[h!]
 \centering

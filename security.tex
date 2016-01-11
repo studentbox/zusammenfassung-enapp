@@ -105,7 +105,7 @@ Der Bytecode soll nach Kompilation unverändert bleiben. Der Byte Code Verifier 
 \subsubsection{Class Loader}
 Nach der Verifikation des Byte Codes werden die Klassen geladen. Dabei gibt es drei Arten wie Klassen sicher geladen werden können:
 \begin{description}
-	\item[Class Loader und Namespaces:] Der Class Loader ist zuständig für das Laden von Klassen. Der built-in Class Loader von Java wird \emph{primordial class loader} genannt. Es können auch eigene Class Loader implementiert werden. Der Class Loader muss die Namespaces schützen. Beispielweise kann ich nicht einfach eine eigene Klasse in das Package \verb|java.lang| in meinem Projekt implementieren. Erstens könnte ich ja bestehende Klassen so überschreiben oder auf package-private Ressourcen zugreifen. Der \emph{primordial class loader} wirft in diesem Fall eine \verb|SecurityException|.
+	\item[Namespaces:] Der Class Loader ist zuständig für das Laden von Klassen. Der built-in Class Loader von Java wird \emph{primordial class loader} genannt. Es können auch eigene Class Loader implementiert werden. Der Class Loader muss die Namespaces schützen. Beispielweise kann ich nicht einfach eine eigene Klasse in das Package \verb|java.lang| in meinem Projekt implementieren. Erstens könnte ich ja bestehende Klassen so überschreiben oder auf package-private Ressourcen zugreifen. Der \emph{primordial class loader} wirft in diesem Fall eine \verb|SecurityException|.
 	
 	\begin{figure}[h!]
 	\centering
@@ -272,7 +272,6 @@ Annotationen sind gut geeignet für einfachere Applikationen - übersichtlich un
 
 \begin{lstlisting}[caption=Programmatische Security im EJB-Tier, label=lst:programmatische-security]
 // Schritt 1: Programmieren
-
 public double getSalary(String employeeId) {
 	java.security.Principal p = ctx.getCallerPrincipal();
 	String callerId = p.getName();

@@ -29,7 +29,7 @@ Daraus ist zu entnehmen, dass es zwei \emph{Destinationen} gibt: Queue und Topic
 
 
 \begin{description}
-	\item[Administriete Objekte] Dazu gehören die Connection Factories und die Destinations. Beide werden über den Namensdienst (JNDI) angefordert. Die Connection Factory ist für das Erstellen einer Verbindung zuständig un die Destination stellt die Queue zur Verfügung.
+	\item[Administriete Objekte] Dazu gehören die Connection Factories und die Destinations. Beide werden über den Namensdienst (JNDI) angefordert. Die Connection Factory ist für das Erstellen einer Verbindung zuständig und die Destination stellt die Queue zur Verfügung.
 	\item[Connection] Eine Connection wird über die Connection Factory hergestellt. Um die Kommunikation zu steuern erstellt die Connection eine Session.
 	\item[Session] Aus der Session kann entweder ein Producer oder ein Consumer erstellt werden. Zudem kann sie eine Message erstellen.
 	\item[Message Producer] Der Message Producer wird verwendet um eine Message an eine Destination zu senden.
@@ -41,12 +41,12 @@ Abbildung \ref{fig:send-receive-message} zeigt wie eine Nachricht gesendet bzw. 
 
 \begin{figure}
 	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics[width=\textwidth]{fig/send-message}
 		\caption{Nachricht senden}
 	\end{subfigure}
 	~
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics[width=\textwidth]{fig/receive-message}
 		\caption{Nachricht empfangen}
 	\end{subfigure}
@@ -57,7 +57,7 @@ Abbildung \ref{fig:send-receive-message} zeigt wie eine Nachricht gesendet bzw. 
 
 \section{Messages}
 
-Eine Message besteht aus einem Header, den Properties und dem Body. Der JMS Header enthält Informationen über das Routing und die Identifikation. Praktisch alle Felder werden automatisch gesetzt, allerdings kann der Anwender eine Auswahl auch selbst setzen. Die JMS Properties dienen als Ergänzung zu den Header-Feldern. Das JMS API definiert die Property-Namen (z.B. \verb|JMSExpiration|, \verb|JSMPriority|) und die JMS Implementation kann diese unterstützen. Der JMS Body kann mit den folgenden fünf Message Formaten gefüllt werden:
+Eine Message besteht aus einem Header, den Properties und dem Body. Der JMS Header enthält Informationen über das Routing und die Identifikation. Praktisch alle Felder werden automatisch gesetzt, allerdings kann der Anwender eine Auswahl auch selbst setzen. Die JMS Properties dienen als Ergänzung zu den Header-Feldern. Das JMS API definiert die Property-Namen (z.B. \verb|JMSExpiration|, \verb|JMSPriority|) und die JMS Implementation kann diese unterstützen. Der JMS Body kann mit den folgenden fünf Message Formaten gefüllt werden:
 
 \begin{description}
 	\item[StreamMessage:] Ein Stream von primitiven Java Werten wird sequentiell gelesen
@@ -95,13 +95,13 @@ Wenn ein normaler Consumer erstellt wird, werden so lange Messages empfangen bis
 
 \begin{figure}
 	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics[width=\textwidth]{fig/jms-nondurableSubscriber}
 		\caption{Unzuverlässige Client Subscription}
 		\label{fig:jms-nondurable-subscriber}
 	\end{subfigure}
 	~
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics[width=\textwidth]{fig/jms-durableSubscriber}
 		\caption{Zuverlässige Client Subscription}
 		\label{fig:jms-durable-subscriber}

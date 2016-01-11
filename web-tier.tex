@@ -98,10 +98,7 @@ Mit JSF wurde 2004 ein Komponenten basiertes Framework vorgestellt, welches eine
 // Bean erstellen (HelloWorld.java)
 @ManagedBean(name = "HelloWorld", eager = true)
 public class HelloWorld {
-
-	public String getMessage() {
-		return "Hello World!";
-	}
+	public String getMessage() {return "Hello World!";}
 }
 
 // Faces Servlet konfigurieren (web.xml)

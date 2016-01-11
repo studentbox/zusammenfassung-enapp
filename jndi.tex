@@ -63,9 +63,9 @@ try {
 \end{figure}
 
 \subsection{Externe JNDI Ressourcen}
-Java EE Applikationen benötigen oft Zugriff auf Ressourcen, welche in einem externen JNDI Repository gespeichert sind. Beispielsweise können Objekte in einem LDAP Server gespeichert werden. Dazu muss die Verbindung zum LDAP Server konfiguriert werden.
+Java EE Applikationen benötigen oft Zugriff auf Ressourcen, welche in einem externen JNDI Repository gespeichert sind. Beispielsweise können Objekte in einem LDAP Server gespeichert werden. Dazu muss die Verbindung zum LDAP Server wie in Listing \ref{lst:verbindung-ldap} konfiguriert werden.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption=Verbindung zum LDAP, label=lst:verbindung-ldap]
 <external-jndi-resource jndi-name="test/myBean" jndi-lookup-name="cn=myBean" res-type="test.myBean" factory-class="com.sun.jndi.ldap.LdapCtxFactory">
 	<property name="PROVIDER-URL" value="ldap://ldapserver:389/o=myObjects" />
 	<property name="SECURITY_AUTHENTICATION" value="simple" />
@@ -75,15 +75,14 @@ Java EE Applikationen benötigen oft Zugriff auf Ressourcen, welche in einem ext
 \end{lstlisting}
 
 \section{LDAP}
-Das \textbf{Lightweight Directory Access Protocol} ist mehr als nur ein Protokoll. Es beinhaltet vier Modelle:
+Dass \textbf{Lightweight Directory Access Protocol} ist mehr als nur ein Protokoll. Es beinhaltet vier Modelle:
 \begin{itemize}
 	\item Informations-Modell
 	\item Namens-Modell
 	\item Funktionales-Modell
 	\item Sicherheits-Modell
 \end{itemize}
-Es gibt für die unterschiedlichsten Programmiersprachen APIs (C-API, Java (JNDI), Perl-LDAP, PHP LDAP und auch Unix-CMD). Das LDIF (LDAP Data Interchange Format) dient um Informationen aus dem Verzeichnisdienst in einem ASCI-basierten Dateiformat darzustellen.
-
+Es gibt APIs für die unterschiedlichsten Programmiersprachen (C-API, Java (JNDI), Perl-LDAP, PHP LDAP und auch Unix-CMD). Das LDIF (LDAP Data Interchange Format) dient um Informationen aus dem Verzeichnisdienst in einem ASCI-basierten Dateiformat darzustellen.
 
 \begin{lstlisting}[caption=Beispiel LDIF]
 dn: uid=zajoho, ou=people, dc=el, dc=campus, dc=intern
@@ -109,7 +108,7 @@ add: mail
 \end{lstlisting}
 
 \subsection{Geschichte}
-LDAP hat seinen Ursprung an der Universtiät von Michigan (UMich) und wurde erstmals in einem RFC vorgeschlagen. LDAP soll eine alternative zum DAP darstellen, welches X.500 (beschreibt Aufbau eines Verzeichnisdienstes) vollständig implementierte mit einem ganzen OSI/ISO Stack. LDAP verwendet dabei nur einen TCP/IP Stack. Die ITU (Internationel Telecommunication Union) definiert auch Standards wie ISO. Bekannt sind die X-Spezifikationen wie X.501 oder X.525.
+LDAP hat seinen Ursprung an der Universtiät von Michigan (UMich) und wurde erstmals in einem RFC vorgeschlagen. LDAP soll eine alternative zum DAP darstellen, welches X.500 (beschreibt Aufbau eines Verzeichnisdienstes) vollständig implementierte mit einem ganzen OSI/ISO Stack. LDAP verwendet dabei nur einen TCP/IP Stack.
 
 \subsection{Unterschiede zur DB}
 \begin{itemize}
@@ -123,16 +122,12 @@ LDAP hat seinen Ursprung an der Universtiät von Michigan (UMich) und wurde erst
 
 \subsection{Modelle}
 
-\subsubsection{Informations-Modell}
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.6\linewidth]{fig/ldap-informations-modell}
-\caption{Informations-Modell}
-\label{fig:ldap-informations-modell}
-\end{figure}
+\subsubsection{Informationsmodell}
+Das Informationsmodell definiert Datentypen und Grundeinheiten der Informationen, die im Verzeichnis gespeichert werden sollen. Die Grundeinheit ist ein Entry der aus mehreren Attributen besteht. Attribute haben einen Typ und dürfen einen oder mehrere Werte annehmen. Attribute können vom Benutzer (normale Attribute) oder vom System (Operationale Attribute z.B. Timestamp) modifiziert werden. Attribute können auch Bedingungen (Constraints) haben z.B. Länge der Zeichenkette.
 
-\subsubsection{Namens-Modell}
-Die Datenstruktur ist ein hierarchischer Baum mit Wurzeln, Zweigen und Blättern. Dieser Baum wird auch Directory Information Tree (DIT) genannt. Die Wurzel (root, suffix) ist das oberste Datenobjekt, unter ihm verzweigen sich die höheren Strukturen. Oft wird der Unternehmensnamen als Wurzerl definiert \emph{o=css}. Personen können dann beispielsweise darunter angelegt werden \emph{ou=people,o=css} oder Gruppen \emph{ou=groups,o=css}. Ein einzelnes Objekt wird durch den Distinguished Name (DN) eindeutig identifiziert \emph{uid=tdsuter,ou=people,o=css}. Dieser setzt sich aus mehreren Relative Distinguished Names (RDN) zusammen. Eine anderen Namen für DN ist der canonical Namen, wobei der Pfad mit Slashes getrennt wird: \emph{css/people/tdsuter}. Oder an der HSLU: cn=Bruno Joho, ou=People, dc=el, dc=hslu, dc=ch. Einige bekannte Abkürzungen:
+\subsubsection{Namensmodell}
+
+Das Namensmodell spezifiziert die Struktur der Daten. Die Datenstruktur ist ein hierarchischer Baum mit Wurzeln, Zweigen und Blättern. Dieser Baum wird auch Directory Information Tree (DIT) genannt. Die Wurzel (root, suffix) ist das oberste Datenobjekt, unter ihm verzweigen sich die höheren Strukturen. Oft wird der Unternehmensnamen als Wurzerl definiert (\emph{o=css}). Personen oder Gruppen können dann darunter angelegt werden (\emph{ou=people,o=css} oder \emph{ou=groups,o=css}). Ein einzelnes Objekt wird durch den Distinguished Name (DN) eindeutig identifiziert (\emph{uid=tdsuter,ou=people,o=css}). Dieser setzt sich aus mehreren Relative Distinguished Names (RDN) zusammen. Eine anderen Namen für DN ist der canonical Namen, wobei der Pfad mit Slashes getrennt wird (\emph{css/people/tdsuter}). Einige bekannte Abkürzungen:
 
 \begin{itemize}
 	\item cn = common name
@@ -150,17 +145,10 @@ Die Datenstruktur ist ein hierarchischer Baum mit Wurzeln, Zweigen und Blättern
 \label{fig:ldap-namens-modell}
 \end{figure}
 
-\subsubsection{Sicherheits-Modell}
-Dieses Modell bietet eine flexible Zugriffskontrolle: Entire directory information tree (DIT), Sub-tree, Attribute level, User/Group und Authentication method. Zudem existieren Access Control-Instruction (ACI) \verb|aci = (targetattr != ‘userPassword’) (allowread,search,compare)| \\ \verb|(version 3.0; userdn=‘ldap:///anyone’;)|. Ausserdem kann natürlich entweder SSL oder TLS verwendet werden. Benutzt x.509 basierte Zertifikate. LDAP über SSL wird LDAPS abgekürzt.
+\subsubsection{Sicherheitsmodell}
 
-\subsubsection{Funktionale-Modell}
-Es gibt \textbf{interrogation Operationen}, welche zur Abfrage dienen. Es gibt keinen Read-Operator sondern nur einen Search, welcher bis zu 8 Parameter kennt. Dazu gibt es \textbf{Update-Operationen} (Hinzufügen, Löschen, Verändern). Zu guter letzt exsitieren die \textbf{Authentcation \& Control Operations} (Bind, Unbind, Abandon).
+Das Sicherheitsmodell dient dazu Informationen im Verzeichnis vor unautorisiertem Zugriff zu schützen. Für die Authentifizierung schickt ein Benutzer über einen Client einen DN und ein Password. Der Server sucht den Eintrag aus dem Verzeichnis heraus und authentiziert den Client, wenn das gegebene Passwort richtig ist. SSL und TLS sind Konzepte, um Daten zu verschlüsseln. Leider bietet LDAP kein allgemeines Access Control Model (Art und Weise wie Zugriffsrechte beschrieben werden), sondern nur eine eigene Access Control Instruction.
 
-\subsubsection{Zugiff-Modell}
-Neben den vier aufgelisteten Modellen, gibt es natürlich nun einfach noch ein fünftes. 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.4\linewidth]{fig/ldap-zugriffs-modell}
-\caption{Zugriffs-Modell}
-\label{fig:ldap-zugriffs-modell}
-\end{figure}
+\subsubsection{Funktionale Modell}
+
+Das Funktionale Modell beschreibt die möglichen Operatione mit den entsprechenden Parameter. Es gibt \textbf{Interrogation Operationen}, welche zur Abfrage dienen. Es gibt keinen Read-Operator sondern nur einen Search, welcher bis zu 8 Parameter kennt. Dazu gibt es \textbf{Update Operationen} (Hinzufügen, Löschen, Verändern). Zu guter Letzt existieren die \textbf{Authentcation \& Control Operations} (Bind, Unbind, Abandon).
